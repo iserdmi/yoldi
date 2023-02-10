@@ -1,0 +1,105 @@
+@import '../../styles/mixins';
+@import '../../styles/vars';
+
+.button {
+  border-radius: $border-radius;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  min-width: 114px;
+  cursor: pointer;
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  .leftIcon {
+    margin-right: 10px;
+  }
+
+  .text {
+    @include button-text;
+  }
+
+  &.style-outline {
+    border: 1px solid $strokes-primary-color;
+    background-color: $background-primary-color;
+    transition: border-color 400ms ease, color 400ms ease;
+    color: $txt-color;
+
+    .text {
+    }
+
+    .leftIcon {
+      path {
+        transition: fill 400ms ease;
+        fill: $txt-color;
+      }
+    }
+
+    &:hover,
+    &:active {
+      border-color: $hover-color;
+      color: $hover-color;
+      transition: none;
+
+      .leftIcon {
+        path {
+          transition: none;
+          fill: $hover-color;
+        }
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+
+  &.style-black {
+    border: none;
+    background-color: $txt-color;
+    color: $background-primary-color;
+    transition: background-color 400ms ease;
+
+    .text {
+    }
+
+    &:hover,
+    &:active {
+      background-color: $hover-color;
+      transition: none;
+    }
+
+    &.disabled {
+      pointer-events: none;
+      background-color: $strokes-primary-color;
+
+      .text {
+        color: $background-secondary-color;
+      }
+    }
+
+    &.loading {
+      position: relative;
+      @include loader($border-width: 3px, $size: 20px, $color: $background-primary-color);
+
+      .text {
+        opacity: 0;
+      }
+    }
+  }
+
+  &.size-s {
+    height: 40px;
+    padding: 4px 22px;
+  }
+
+  &.size-m {
+    height: 50px;
+    padding: 4px 22px;
+  }
+}

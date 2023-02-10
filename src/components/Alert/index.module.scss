@@ -1,0 +1,18 @@
+@use 'sass:color';
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+.alert {
+  padding: 10px;
+  border-radius: $border-radius;
+
+  &.color-red {
+    background-color: color.scale($red, $lightness: 85%);
+    color: color.scale($red, $lightness: -70%);
+  }
+
+  &.color-green {
+    background-color: color.scale($green, $lightness: 85%);
+    color: color.scale($green, $lightness: -70%);
+  }
+}

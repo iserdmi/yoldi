@@ -1,0 +1,17 @@
+.formSegments {
+  & > *:not(:last-child) {
+    margin-bottom: 25px;
+  }
+}
+
+.formInputs {
+  & > *:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
+.formButtonsAndAlert {
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}

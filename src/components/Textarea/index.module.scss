@@ -1,0 +1,11 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+@import '../Input/index.module';
+
+.field {
+  .input {
+    min-height: 120px;
+    width: 100%;
+    resize: none;
+  }
+}

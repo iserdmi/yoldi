@@ -1,0 +1,68 @@
+@import '../../styles/mixins';
+@import '../../styles/vars';
+
+.layout {
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: stretch;
+
+  .content {
+    flex: 1 1 100%;
+    background-color: $background-secondary-color;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+
+    @include media('<=500px') {
+      background-color: $background-primary-color;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .panel {
+      background-color: $background-primary-color;
+      border-radius: $border-radius;
+      border: 1px solid $strokes-secondary-color;
+      padding: 30px;
+      min-width: 400px;
+
+      @include media('<=500px') {
+        min-width: 0;
+        width: 100%;
+        background-color: transparent;
+        padding: 0;
+        border: none;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    background-color: $background-primary-color;
+    border-top: 1px solid $strokes-secondary-color;
+    min-height: 72px;
+    padding: 10px 30px;
+    @include paragraph;
+    color: $gray;
+
+    .link {
+      color: $txt-color;
+      text-decoration: none;
+      margin-left: 5px;
+      transition: color 400ms ease;
+
+      &:hover,
+      &:active {
+        color: $hover-color;
+        transition: none;
+      }
+    }
+  }
+}

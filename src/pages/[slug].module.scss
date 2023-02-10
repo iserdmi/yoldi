@@ -1,0 +1,95 @@
+@import '../styles/vars';
+@import '../styles/mixins';
+
+.page {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-items: flex-start;
+  align-items: center;
+
+  .banner {
+    height: 200px;
+    width: 100%;
+    background-color: $strokes-secondary-color;
+  }
+
+  .content {
+    width: 100%;
+    max-width: 860px;
+    padding: 0 30px 30px;
+
+    .avatar {
+      margin-top: -50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      margin-top: 35px;
+      display: flex;
+      flex-flow: row nowrap;
+
+      $breakpoint: '<=600px';
+
+      @include media($breakpoint) {
+        flex-flow: column nowrap;
+      }
+
+      .left {
+        flex: 1 1 600px;
+
+        @include media($breakpoint) {
+          flex: 1 1 auto;
+        }
+
+        .name {
+          @include title;
+          color: $txt-color;
+        }
+
+        .email {
+          margin-top: 10px;
+          @include paragraph;
+
+          .emailLink {
+            color: $gray;
+            text-decoration: none;
+            transition: color 400ms ease;
+
+            &:hover,
+            &:active {
+              color: $hover-color;
+              transition: none;
+            }
+          }
+        }
+      }
+
+      .right {
+        flex: 0 0 200px;
+
+        @include media($breakpoint) {
+          margin-top: 10px;
+          flex: 1 1 auto;
+        }
+
+        .editButton {
+        }
+      }
+    }
+
+    .description {
+      margin-top: 30px;
+      max-width: 600px;
+      @include paragraph;
+      color: $txt-color;
+    }
+
+    .logoutButtonPlace {
+      margin-top: 60px;
+
+      .logoutButton {
+      }
+    }
+  }
+}

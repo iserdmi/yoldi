@@ -1,0 +1,14 @@
+.visbility {
+  width: 25px;
+  height: 25px;
+  opacity: 0.5;
+  transition: 200ms ease opacity;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &.visible {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,88 @@
+@import "../styles/vars";
+@import "../styles/mixins";
+
+.page {
+  width: 100%;
+  max-width: 800px;
+  align-self: center;
+  padding: 50px 20px;
+
+  .title {
+    margin-bottom: 30px;
+  }
+
+  .users {
+    .user {
+      padding: 10px 0;
+      border-top: 1px solid $strokes-secondary-color;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      text-decoration: none;
+
+      &:last-child {
+        border-bottom: 1px solid $strokes-secondary-color;
+      }
+
+      .avatar {
+        flex: 0 0 50px;
+        margin-right: 20px;
+      }
+
+      .nameAndEmail {
+        flex: 1 1 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+
+        $breakpoint: "<=600px";
+
+        @include media($breakpoint) {
+          flex-flow: column nowrap;
+          align-items: flex-start;
+        }
+
+        .name {
+          margin-right: 20px;
+          @include button-text;
+          color: $txt-color;
+          transition: color 400ms ease;
+          position: relative;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+
+          @include media($breakpoint) {
+            margin-right: 0;
+          }
+        }
+
+        .email {
+          @include paragraph;
+          color: $gray;
+          transition: color 400ms ease;
+          position: relative;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+      }
+
+      &:hover,
+      &:active {
+        .nameAndEmail {
+          .name {
+            color: $hover-color;
+            transition: none;
+          }
+          .email {
+            color: $hover-color;
+            transition: none;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+@import '../../styles/mixins';
+@import '../../styles/vars';
+
+.header {
+  height: $header-height;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $background-primary-color;
+  border-bottom: 1px solid $strokes-secondary-color;
+  padding: 0 30px 0 20px;
+
+  .left {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    .logoLink {
+      .logo {
+      }
+    }
+
+    .desc {
+      margin-left: 20px;
+      @include paragraph;
+      color: $txt-color;
+      white-space: nowrap;
+
+      @include media('<=700px') {
+        display: none;
+      }
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    position: relative;
+
+    .account {
+      margin-left: 20px;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      text-decoration: none;
+      position: relative;
+
+      .name {
+        @include paragraph;
+        color: $txt-color;
+        transition: color 400ms ease;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: 200px;
+      }
+
+      .avatar {
+        flex: 0 0 50px;
+        margin-left: 20px;
+      }
+
+      &:hover,
+      &:active {
+        .name {
+          color: $hover-color;
+          transition: none;
+        }
+      }
+    }
+  }
+}

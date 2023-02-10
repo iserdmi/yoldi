@@ -1,0 +1,32 @@
+.profileEditor {
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .title {
+    flex: 0 0 auto;
+  }
+
+  .form {
+    flex: 1 1 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+
+    .formInputs {
+      margin-bottom: 25px;
+    }
+
+    .formButtonsAndAlert {
+      .buttons {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: 10px;
+
+        & > * {
+          flex: 1 1 50%;
+        }
+      }
+    }
+  }
+}

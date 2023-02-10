@@ -13,11 +13,26 @@
     "@types/node": "18.13.0",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "autosize": "^5.0.2",
+    "classnames": "^2.3.2",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "formik": "^2.2.9",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.5"
+    "react-modal": "^3.16.1",
+    "swr": "^2.0.3",
+    "typescript": "4.9.5",
+    "zod": "^3.20.5",
+    "zod-formik-adapter": "^1.2.0"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^6.5.1",
+    "@types/autosize": "^4.0.1",
+    "@types/react-modal": "^3.13.1",
+    "include-media": "^2.0.0",
+    "reset-css": "^5.0.1",
+    "sass": "^1.58.0"
   }
 }

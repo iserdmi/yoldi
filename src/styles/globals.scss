@@ -1,0 +1,65 @@
+@import '~reset-css/sass/reset';
+@import './mixins';
+@import './vars';
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--inter);
+}
+
+$modalBreakpoint: '<700px';
+
+.ReactModal__Overlay {
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+
+  @include media($modalBreakpoint) {
+    justify-content: flex-end;
+    background-color: transparent;
+  }
+}
+
+.ReactModal__Content {
+  background: white;
+  outline: none;
+  width: 100%;
+  max-width: 600px;
+  max-height: calc(100vh - 100px);
+  position: relative;
+  transition: margin 200ms ease, opacity 200ms ease;
+  border-radius: $border-radius;
+  border: 1px solid $strokes-secondary-color;
+  overflow-y: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+
+  @include media($modalBreakpoint) {
+    height: calc(100vh - $header-height);
+    max-height: none;
+    max-width: none;
+    border: none;
+    border-radius: 0;
+  }
+}

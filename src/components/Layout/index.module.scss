@@ -1,0 +1,26 @@
+@import '../../styles/vars';
+
+.layout {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+
+  .header {
+    flex: 0 0 auto;
+    height: $header-height;
+
+    .floating {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+  }
+
+  .content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+  }
+}

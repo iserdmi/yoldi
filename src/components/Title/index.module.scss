@@ -1,0 +1,6 @@
+@import '../../styles/mixins';
+
+.title {
+  @include title;
+  margin-bottom: 25px;
+}

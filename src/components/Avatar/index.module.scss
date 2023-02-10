@@ -1,0 +1,36 @@
+@import '../../styles/vars';
+
+.avatar {
+  border-radius: 50%;
+  border: 1px solid $strokes-secondary-color;
+  background-color: $background-secondary-color;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+
+  .letter {
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    color: $txt-color;
+  }
+
+  &.size-s {
+    width: 50px;
+    height: 50px;
+
+    .letter {
+      font-size: 18px;
+    }
+  }
+
+  &.size-m {
+    width: 100px;
+    height: 100px;
+
+    .letter {
+      font-size: 36px;
+    }
+  }
+}
