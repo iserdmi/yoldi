@@ -25,7 +25,6 @@
 
 ## TODO
 
-- Add PrettyText
 - Add Toast
 - Add eslint
 - Add husky

@@ -4,6 +4,7 @@ import '@/styles/globals.scss'
 import { useFonts } from '@/utils/fonts'
 import { useRouterLoading } from '@/utils/useRouterLoading'
 import type { AppProps } from 'next/app'
+import { CookiesProvider } from 'react-cookie'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const routerLoading = useRouterLoading()
@@ -11,9 +12,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Meta />
-      <Loader hidden={!routerLoading} type="overlay" />
-      <Component {...pageProps} />
+      <CookiesProvider>
+        <Meta />
+        <Loader hidden={!routerLoading} type="overlay" />
+        <Component {...pageProps} />
+      </CookiesProvider>
     </>
   )
 }
