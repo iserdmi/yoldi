@@ -1,40 +1,23 @@
 import { Avatar } from '@/components/Avatar'
-import css from './[slug].module.scss'
-import { Button } from '@/components/Button'
-import { useState } from 'react'
+import { Button, LinkButton } from '@/components/Button'
+import { Meta } from '@/components/Meta'
 import { Modal } from '@/components/Modal'
 import { ProfileEditor } from '@/components/ProfileEditor'
-import { Meta } from '@/components/Meta'
-import { NotFoundError, getUserApi } from '@/utils/api'
-import { Loader } from '@/components/Loader'
-import { ErrorPage } from '@/components/ErrorPage'
+import { useState } from 'react'
+import css from './index.module.scss'
+import { User } from '@/api'
+import { useMe } from '@/utils/ctx'
+import Cookies from 'js-cookie'
+import { mutate } from 'swr'
+import { useRouter } from 'next/router'
+import { useLogout } from '@/utils/logout'
+import { getSignOutRoute } from '@/utils/routes'
 
-export async function getServerSideProps(props: { params: { slug: string } }) {
-  try {
-    return {
-      props: {
-        params: props.params,
-        fallback: {
-          ...(await getUserApi.getFallback({ slug: props.params.slug })),
-        },
-      },
-    }
-  } catch (error: any) {
-    if (error instanceof NotFoundError) {
-      return {
-        notFound: true,
-      }
-    }
-    throw error
-  }
-}
-
-export default function UserPage(props: { params: { slug: string } }) {
-  const { data: user, isLoading, error } = getUserApi.useSwr({ slug: props.params.slug })
-  const isMe = true
+export const UserPageComponent = ({ user }: { user: User }) => {
+  const me = useMe()
+  const isMe = user.slug === me?.slug
   const [editorOpen, setEditorOpen] = useState(false)
-  if (isLoading || !user) return <Loader type="page" />
-  if (error) return <ErrorPage message={error.message} />
+  const logout = useLogout()
   return (
     <div className={css.page}>
       <Meta title={user.name} />
@@ -75,7 +58,23 @@ export default function UserPage(props: { params: { slug: string } }) {
         </div>
         {isMe && (
           <div className={css.logoutButtonPlace}>
-            <Button className={css.logoutButton} type="button" style="outline" size="s" leftIconName="sign-out">
+            {/* <LinkButton
+              className={css.logoutButton}
+              href={getSignOutRoute()}
+              style="outline"
+              size="s"
+              leftIconName="sign-out"
+            >
+              Выйти
+            </LinkButton> */}
+            <Button
+              type="button"
+              className={css.logoutButton}
+              onClick={logout}
+              style="outline"
+              size="s"
+              leftIconName="sign-out"
+            >
               Выйти
             </Button>
           </div>

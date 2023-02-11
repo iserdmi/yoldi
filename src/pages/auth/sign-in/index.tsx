@@ -1,21 +1,42 @@
+import { clientApi } from '@/api'
+import { Alert } from '@/components/Alert'
+import { AuthLayout } from '@/components/AuthLayout'
+import { Button } from '@/components/Button'
 import { Form, FormButtonsAndAlert, FormInputs, FormSegments, useForm } from '@/components/Form'
 import { Input } from '@/components/Input'
+import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
+import { NextPageWithLayout } from '@/pages/_app'
+import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
+import { getMyProfileRoute } from '@/utils/routes'
+import { withAllWrappers } from '@/utils/withAllWrappers'
 import { zEmailRequired, zStringRequired } from '@/utils/zod'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
+import { mutate } from 'swr'
 import { z } from 'zod'
 import css from './index.module.scss'
-import { Button } from '@/components/Button'
-import { Alert } from '@/components/Alert'
-import { PasswordInput } from '@/components/PasswordInput'
-import { NextPageWithLayout } from '@/pages/_app'
-import { AuthLayout } from '@/components/AuthLayout'
 
 const zSignInInput = z.object({
   email: zEmailRequired,
   password: zStringRequired,
 })
 
+export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServerSideProps) => {
+  if (defaultServerSideProps.props.me) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: getMyProfileRoute(),
+      },
+    }
+  }
+  return defaultServerSideProps
+})
+
 const SignInPage: NextPageWithLayout = () => {
+  const router = useRouter()
+  const { trigger: login } = clientApi.login.useMutation()
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       email: '',
@@ -23,15 +44,13 @@ const SignInPage: NextPageWithLayout = () => {
     },
     validationSchema: zSignInInput,
     onSubmit: async (values) => {
-      console.log('sending')
-
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // resolve(true)
-          reject({ message: 'error' })
-          console.log('sended')
-        }, 2000)
-      })
+      const result = await login(values)
+      if (!result) {
+        throw new Error('Ошибка авторизации')
+      }
+      Cookies.set('token', result.value, { expires: 99999 })
+      await mutate(() => true)
+      await router.push(getMyProfileRoute())
     },
     disableButtonUntilValid: true,
   })
@@ -57,8 +76,8 @@ const SignInPage: NextPageWithLayout = () => {
   )
 }
 
-SignInPage.getLayout = function getLayout(page: React.ReactElement) {
+SignInPage.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>
 }
 
-export default SignInPage
+export default withAllWrappers(SignInPage)

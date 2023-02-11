@@ -9,12 +9,14 @@ export const LinkButton = ({
   size,
   style,
   className,
+  leftIconName,
 }: {
   children: string
   href: string
   size: 's' | 'm'
   style: 'black' | 'outline'
   className?: string
+  leftIconName?: IconName
 }) => {
   return (
     <Link
@@ -26,6 +28,7 @@ export const LinkButton = ({
         [className || '']: !!className,
       })}
     >
+      {!!leftIconName && <Icon name={leftIconName} className={css.leftIcon} />}
       <span className={css.text}>{children}</span>
     </Link>
   )

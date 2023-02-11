@@ -1,5 +1,10 @@
-import { ErrorPage } from '@/components/ErrorPage'
+import { ErrorPageComponent } from '@/components/ErrorPageComponent'
+import { getDefaultServerSideProps } from '@/utils/defaultServerSideProps'
+import { withAllWrappers } from '@/utils/withAllWrappers'
+import { withClientOnly } from '@/utils/withClientOnly'
 
-export default function NotFoundPage() {
-  return <ErrorPage title="Страница не найдена" />
+const NotFoundPage = () => {
+  return <ErrorPageComponent title="Страница не найдена" />
 }
+
+export default withClientOnly(withAllWrappers(NotFoundPage))

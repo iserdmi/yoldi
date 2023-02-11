@@ -1,27 +1,28 @@
+import { clientApi, getApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { Avatar } from '@/components/Avatar'
 import { Loader } from '@/components/Loader'
 import { Meta } from '@/components/Meta'
 import { Title } from '@/components/Title'
-import { getUsersApi, getUsersFetch, getUsersUrl, useGetUsers } from '@/utils/api'
+import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { getUserRoute } from '@/utils/routes'
-import { withSwrFallback } from '@/utils/withSwrFallback'
+import { withAllWrappers } from '@/utils/withAllWrappers'
 import Link from 'next/link'
 import css from './index.module.scss'
 
-export async function getServerSideProps() {
+export const getServerSideProps = withDefaultServerSideProps(async (ctx) => {
+  const serverApi = getApi(ctx)
   return {
     props: {
       fallback: {
-        ...(await getUsersApi.getFallback()),
+        ...(await serverApi.getUsers.getFallback()),
       },
     },
   }
-}
+})
 
 const UsersPage = () => {
-  const { data: users, isLoading, error } = getUsersApi.useSwr()
-  console.log(getUsersApi.getPath)
+  const { data: users, isLoading, error } = clientApi.getUsers.useQuery()
 
   return (
     <div className={css.page}>
@@ -29,7 +30,7 @@ const UsersPage = () => {
       <Title as="h1" className={css.title}>
         Список аккаунтов
       </Title>
-      {!!isLoading && !users && <Loader type="section" />}
+      {isLoading && !users && <Loader type="section" />}
       {!!error && <Alert color="red">{error.message}</Alert>}
       {!!users && (
         <div className={css.users}>
@@ -48,4 +49,4 @@ const UsersPage = () => {
   )
 }
 
-export default withSwrFallback(UsersPage)
+export default withAllWrappers(UsersPage)

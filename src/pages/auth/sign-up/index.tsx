@@ -1,15 +1,30 @@
+import { Alert } from '@/components/Alert'
+import { AuthLayout } from '@/components/AuthLayout'
+import { Button } from '@/components/Button'
 import { Form, FormButtonsAndAlert, FormInputs, FormSegments, useForm } from '@/components/Form'
 import { Input } from '@/components/Input'
+import { Meta } from '@/components/Meta'
+import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
+import { NextPageWithLayout } from '@/pages/_app'
+import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
+import { getMyProfileRoute } from '@/utils/routes'
+import { withAllWrappers } from '@/utils/withAllWrappers'
 import { zEmailRequired, zStringRequired } from '@/utils/zod'
 import { z } from 'zod'
 import css from './index.module.scss'
-import { Button } from '@/components/Button'
-import { Alert } from '@/components/Alert'
-import { PasswordInput } from '@/components/PasswordInput'
-import { AuthLayout } from '@/components/AuthLayout'
-import { NextPageWithLayout } from '@/pages/_app'
-import { Meta } from '@/components/Meta'
+
+export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServerSideProps) => {
+  if (defaultServerSideProps.props.me) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: getMyProfileRoute(),
+      },
+    }
+  }
+  return defaultServerSideProps
+})
 
 const zSignUpInput = z.object({
   name: zStringRequired,
@@ -69,4 +84,4 @@ SignUpPage.getLayout = function getLayout(page: React.ReactElement) {
   return <AuthLayout>{page}</AuthLayout>
 }
 
-export default SignUpPage
+export default withAllWrappers(SignUpPage)

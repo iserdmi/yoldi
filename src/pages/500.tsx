@@ -1,5 +1,9 @@
-import { ErrorPage } from '@/components/ErrorPage'
+import { ErrorPageComponent } from '@/components/ErrorPageComponent'
+import { withAllWrappers } from '@/utils/withAllWrappers'
+import { withClientOnly } from '@/utils/withClientOnly'
 
-export default function InternalServerErrorPage() {
-  return <ErrorPage title="Ошибка сервера" />
+const InternalServerErrorPage = () => {
+  return <ErrorPageComponent title="Ошибка сервера" />
 }
+
+export default withClientOnly(withAllWrappers(InternalServerErrorPage))

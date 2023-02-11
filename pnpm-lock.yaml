@@ -4,6 +4,8 @@ specifiers:
   '@next/font': 13.1.6
   '@svgr/webpack': ^6.5.1
   '@types/autosize': ^4.0.1
+  '@types/js-cookie': ^3.0.2
+  '@types/lodash': ^4.14.191
   '@types/node': 18.13.0
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
@@ -14,6 +16,8 @@ specifiers:
   eslint-config-next: 13.1.6
   formik: ^2.2.9
   include-media: ^2.0.0
+  js-cookie: ^3.0.1
+  lodash: ^4.17.21
   next: 13.1.6
   react: 18.2.0
   react-dom: 18.2.0
@@ -35,6 +39,8 @@ dependencies:
   eslint: 8.33.0
   eslint-config-next: 13.1.6_4vsywjlpuriuw3tl5oq6zy5a64
   formik: 2.2.9_react@18.2.0
+  js-cookie: 3.0.1
+  lodash: 4.17.21
   next: 13.1.6_5mhhrw5dq6gnbuirj2awdzvyuu
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -47,6 +53,8 @@ dependencies:
 devDependencies:
   '@svgr/webpack': 6.5.1
   '@types/autosize': 4.0.1
+  '@types/js-cookie': 3.0.2
+  '@types/lodash': 4.14.191
   '@types/react-modal': 3.13.1
   include-media: 2.0.0
   reset-css: 5.0.1
@@ -1735,9 +1743,17 @@ packages:
     resolution: {integrity: sha512-iPJT/FCaSO79G6j+9n6gmFc5nhxZ1gDrA2UAvb5FslJ6FJQZnDfbBU0qp5vpp0Cbjj7+gOyjuWZ7RrXvRuETaA==}
     dev: true
 
+  /@types/js-cookie/3.0.2:
+    resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==}
+    dev: true
+
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: false
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+    dev: true
 
   /@types/node/18.13.0:
     resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
@@ -3219,6 +3235,11 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+    dev: false
+
+  /js-cookie/3.0.1:
+    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
+    engines: {node: '>=12'}
     dev: false
 
   /js-sdsl/4.3.0:

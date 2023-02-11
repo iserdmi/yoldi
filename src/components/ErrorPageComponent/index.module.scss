@@ -2,6 +2,7 @@
   flex: 1 1 100%;
   padding: 30px;
   display: flex;
+  flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
 }
