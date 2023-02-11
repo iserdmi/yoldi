@@ -6,6 +6,7 @@ import { AuthLayout } from '@/components/AuthLayout'
 import { Button } from '@/components/Button'
 import { Form, FormButtonsAndAlert, FormInputs, FormSegments, useForm } from '@/components/Form'
 import { Input } from '@/components/Input'
+import { Meta } from '@/components/Meta'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
@@ -54,6 +55,7 @@ const SignInPage: NextPageWithLayout = () => {
 
   return (
     <div>
+      <Meta title="Вход" />
       <Title as="h1">Вход в&nbsp;Yoldi&nbsp;Agency</Title>
       <Form formik={formik}>
         <FormSegments>
