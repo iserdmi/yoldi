@@ -1,11 +1,14 @@
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
-import { getSignInRoute } from './routes'
+import { useState } from 'react'
+import { mutate } from 'swr'
 
 export const useLogout = () => {
-  const router = useRouter()
-  return () => {
+  const [logouting, setLogouting] = useState(false)
+  const logout = async () => {
+    setLogouting(true)
     Cookies.remove('token')
-    router.push(getSignInRoute())
+    await mutate(() => true)
+    setLogouting(false)
   }
+  return { logout, logouting }
 }

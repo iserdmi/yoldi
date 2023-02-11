@@ -13,7 +13,7 @@ export const UserPageComponent = ({ user }: { user: User }) => {
   const me = useMe()
   const isMe = user.slug === me?.slug
   const [editorOpen, setEditorOpen] = useState(false)
-  const logout = useLogout()
+  const { logout, logouting } = useLogout()
   return (
     <div className={css.page}>
       <Meta title={user.name} />
@@ -60,6 +60,7 @@ export const UserPageComponent = ({ user }: { user: User }) => {
               type="button"
               className={css.logoutButton}
               onClick={logout}
+              loading={logouting}
               style="outline"
               size="s"
               leftIconName="sign-out"

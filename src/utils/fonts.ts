@@ -8,6 +8,6 @@ export const fontsClassNames = cn(inter.variable, 'font-sans', inter.className)
 
 export const useFonts = () => {
   useEffect(() => {
-    document.querySelector('body')?.classList.add(fontsClassNames)
+    document.querySelector('body')?.classList.add(...fontsClassNames.split(' '))
   }, [])
 }

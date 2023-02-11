@@ -1,5 +1,4 @@
 import { User, clientApi } from '@/api'
-import { ErrorPageComponent } from '@/components/ErrorPageComponent'
 import Cookies from 'js-cookie'
 import { createContext, useContext } from 'react'
 import { useSWRConfig } from 'swr'
@@ -31,7 +30,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         me,
       }}
     >
-      {isLoading && !me ? <Loader type="page" /> : !!error ? <ErrorPageComponent message={error.message} /> : children}
+      {isLoading && !me ? <Loader type="page" /> : children}
     </AppReactContext.Provider>
   )
 }

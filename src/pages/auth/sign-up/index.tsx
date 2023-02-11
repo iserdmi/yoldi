@@ -8,7 +8,6 @@ import { Meta } from '@/components/Meta'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
-import { getMyProfileRoute } from '@/utils/routes'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 import { zEmailRequired, zStringRequired } from '@/utils/zod'
 import Cookies from 'js-cookie'
@@ -16,13 +15,14 @@ import { useRouter } from 'next/router'
 import { z } from 'zod'
 import css from './index.module.scss'
 import { NextPageWithLayout } from '@/utils/withLayouts'
+import { getUserRoute } from '@/utils/routes'
 
 export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServerSideProps) => {
   if (defaultServerSideProps.props.me) {
     return {
       redirect: {
         permanent: false,
-        destination: getMyProfileRoute(),
+        destination: getUserRoute(defaultServerSideProps.props.me.slug),
       },
     }
   }
@@ -46,8 +46,10 @@ const SignUpPage: NextPageWithLayout = () => {
     validationSchema: zSignUpInput,
     onSubmit: async (values) => {
       const result = await clientApi.signUp.fetcher(values)
+      // TODO: backend, please, return slug from /api/login
       Cookies.set('token', result.value, { expires: 99999 })
-      await router.push(getMyProfileRoute())
+      const me = await clientApi.getProfile.fetcher()
+      await router.push(getUserRoute(me.slug))
     },
     disableButtonUntilValid: true,
   })

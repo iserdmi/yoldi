@@ -1,11 +1,10 @@
 import Logo from '@/assets/logo.svg'
 import { useMe } from '@/utils/ctx'
-import { getMyProfileRoute, getSignInRoute, getUserRoute, getUsersRoute } from '@/utils/routes'
-import Link from 'next/link'
+import { getSignInRoute, getUserRoute, getUsersRoute } from '@/utils/routes'
+import { ActiveLink } from '../ActiveLink'
 import { Avatar } from '../Avatar'
 import { LinkButton } from '../Button'
 import css from './index.module.scss'
-import { ActiveLink } from '../ActiveLink'
 
 export const Header = () => {
   const me = useMe()
@@ -23,7 +22,7 @@ export const Header = () => {
       </div>
       <div className={css.right}>
         {me ? (
-          <ActiveLink className={css.account} href={getMyProfileRoute()}>
+          <ActiveLink className={css.account} href={getUserRoute(me.slug)}>
             <div className={css.name}>{me.name}</div>
             <div className={css.avatar}>
               <Avatar user={me} size="s" />

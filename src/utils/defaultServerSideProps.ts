@@ -1,14 +1,13 @@
 import { getApi } from '@/api'
 import merge from 'lodash/merge'
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
-import { UnauthorizedError } from './errors'
 
 export const getDefaultServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
     const serverApi = getApi(ctx)
     if (ctx.req.cookies.token) {
-      const me = await serverApi.getProfile.fetcher()
       try {
+        const me = await serverApi.getProfile.fetcher()
         return {
           props: {
             me: me,
@@ -18,7 +17,9 @@ export const getDefaultServerSideProps = async (ctx: GetServerSidePropsContext) 
           },
         }
       } catch (error: any) {
-        throw new UnauthorizedError()
+        return {
+          props: {},
+        }
       }
     }
     return {

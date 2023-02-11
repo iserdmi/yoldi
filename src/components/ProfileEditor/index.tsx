@@ -4,7 +4,9 @@ import { Button } from '@/components/Button'
 import { Form, FormButtonsAndAlert, FormInputs, useForm } from '@/components/Form'
 import { Input } from '@/components/Input'
 import { Title } from '@/components/Title'
+import { getUserRoute } from '@/utils/routes'
 import { zStringOptional, zStringRequired } from '@/utils/zod'
+import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction } from 'react'
 import { z } from 'zod'
 import { Textarea } from '../Textarea'
@@ -26,6 +28,7 @@ export const ProfileEditor = ({
   user: User
   setEditorOpen: Dispatch<SetStateAction<boolean>>
 }) => {
+  const router = useRouter()
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       name: user.name,
@@ -37,6 +40,10 @@ export const ProfileEditor = ({
     onSubmit: async (values) => {
       const newProfile = await clientApi.patchProfile.fetcher(values)
       clientApi.getProfile.mutate(newProfile)
+      clientApi.getUser.mutate({ slug: user.slug }, newProfile)
+      if (newProfile.slug !== user.slug) {
+        router.replace(getUserRoute(newProfile.slug), undefined, { shallow: true })
+      }
       setEditorOpen(false)
     },
     disableButtonUntilValid: true,

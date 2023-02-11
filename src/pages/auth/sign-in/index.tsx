@@ -7,15 +7,14 @@ import { Input } from '@/components/Input'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
-import { getMyProfileRoute } from '@/utils/routes'
+import { getUserRoute } from '@/utils/routes'
 import { withAllWrappers } from '@/utils/withAllWrappers'
+import { NextPageWithLayout } from '@/utils/withLayouts'
 import { zEmailRequired, zStringRequired } from '@/utils/zod'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { mutate } from 'swr'
 import { z } from 'zod'
 import css from './index.module.scss'
-import { NextPageWithLayout } from '@/utils/withLayouts'
 
 const zSignInInput = z.object({
   email: zEmailRequired,
@@ -27,7 +26,7 @@ export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServer
     return {
       redirect: {
         permanent: false,
-        destination: getMyProfileRoute(),
+        destination: getUserRoute(defaultServerSideProps.props.me.slug),
       },
     }
   }
@@ -45,7 +44,9 @@ const SignInPage: NextPageWithLayout = () => {
     onSubmit: async (values) => {
       const result = await clientApi.login.fetcher(values)
       Cookies.set('token', result.value, { expires: 99999 })
-      await router.push(getMyProfileRoute())
+      // TODO: backend, please, return slug from /api/login
+      const me = await clientApi.getProfile.fetcher()
+      await router.push(getUserRoute(me.slug))
     },
     disableButtonUntilValid: true,
   })

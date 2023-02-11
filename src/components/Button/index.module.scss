@@ -57,6 +57,16 @@
       pointer-events: none;
       opacity: 0.5;
     }
+
+    &.loading {
+      position: relative;
+      @include loader($border-width: 3px, $size: 20px, $color: $strokes-primary-hover-color);
+
+      .text,
+      .leftIcon {
+        opacity: 0;
+      }
+    }
   }
 
   &.style-black {
@@ -87,7 +97,8 @@
       position: relative;
       @include loader($border-width: 3px, $size: 20px, $color: $background-primary-color);
 
-      .text {
+      .text,
+      .leftIcon {
         opacity: 0;
       }
     }
