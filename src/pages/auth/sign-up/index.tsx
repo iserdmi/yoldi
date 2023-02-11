@@ -1,3 +1,4 @@
+import { clientApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { AuthLayout } from '@/components/AuthLayout'
 import { Button } from '@/components/Button'
@@ -11,6 +12,8 @@ import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { getMyProfileRoute } from '@/utils/routes'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 import { zEmailRequired, zStringRequired } from '@/utils/zod'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 import { z } from 'zod'
 import css from './index.module.scss'
 
@@ -33,6 +36,7 @@ const zSignUpInput = z.object({
 })
 
 const SignUpPage: NextPageWithLayout = () => {
+  const router = useRouter()
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       name: '',
@@ -41,14 +45,9 @@ const SignUpPage: NextPageWithLayout = () => {
     },
     validationSchema: zSignUpInput,
     onSubmit: async (values) => {
-      console.log('sending')
-
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(true)
-          console.log('sended')
-        }, 2000)
-      })
+      const result = await clientApi.signUp.fetcher(values)
+      Cookies.set('token', result.value, { expires: 99999 })
+      await router.push(getMyProfileRoute())
     },
     disableButtonUntilValid: true,
   })

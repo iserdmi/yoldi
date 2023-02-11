@@ -1,4 +1,4 @@
-import { FormikHelpers, FormikValues, useFormik } from 'formik'
+import { FormikConfig, FormikHelpers, FormikValues, useFormik } from 'formik'
 import React, { useMemo, useState } from 'react'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -17,6 +17,7 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
   validationSchema,
   onSubmit,
   disableButtonUntilValid = false,
+  ...restProps
 }: {
   successMessage?: string | false
   resetOnSuccess?: boolean
@@ -28,7 +29,7 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
     actions: FormikHelpers<ValuesType<TMaybeZodSchema>>
   ) => Promise<any> | any
   disableButtonUntilValid?: boolean
-}) => {
+} & FormikConfig<ValuesType<TMaybeZodSchema>>) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false)
   const [submittingError, setSubmittingError] = useState<Error | null>(null)
 
@@ -56,6 +57,7 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
         setSubmittingError(error)
       }
     },
+    ...restProps,
   })
 
   const alertProps = useMemo<AlertProps>(() => {

@@ -1,17 +1,13 @@
+import { User } from '@/api'
 import { Avatar } from '@/components/Avatar'
-import { Button, LinkButton } from '@/components/Button'
+import { Button } from '@/components/Button'
 import { Meta } from '@/components/Meta'
 import { Modal } from '@/components/Modal'
 import { ProfileEditor } from '@/components/ProfileEditor'
+import { useMe } from '@/utils/ctx'
+import { useLogout } from '@/utils/logout'
 import { useState } from 'react'
 import css from './index.module.scss'
-import { User } from '@/api'
-import { useMe } from '@/utils/ctx'
-import Cookies from 'js-cookie'
-import { mutate } from 'swr'
-import { useRouter } from 'next/router'
-import { useLogout } from '@/utils/logout'
-import { getSignOutRoute } from '@/utils/routes'
 
 export const UserPageComponent = ({ user }: { user: User }) => {
   const me = useMe()
@@ -53,20 +49,13 @@ export const UserPageComponent = ({ user }: { user: User }) => {
             </div>
           )}
         </div>
-        <div className={css.description}>
-          <p>{user.description}</p>
-        </div>
+        {user.description && (
+          <div className={css.description}>
+            <p>{user.description}</p>
+          </div>
+        )}
         {isMe && (
           <div className={css.logoutButtonPlace}>
-            {/* <LinkButton
-              className={css.logoutButton}
-              href={getSignOutRoute()}
-              style="outline"
-              size="s"
-              leftIconName="sign-out"
-            >
-              Выйти
-            </LinkButton> */}
             <Button
               type="button"
               className={css.logoutButton}

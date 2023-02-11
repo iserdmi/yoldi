@@ -1,3 +1,4 @@
+import { User, clientApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 import { Form, FormButtonsAndAlert, FormInputs, useForm } from '@/components/Form'
@@ -8,7 +9,6 @@ import { Dispatch, SetStateAction } from 'react'
 import { z } from 'zod'
 import { Textarea } from '../Textarea'
 import css from './index.module.scss'
-import { User } from '@/api'
 
 const zEditProfileInput = z.object({
   name: zStringRequired,
@@ -32,19 +32,15 @@ export const ProfileEditor = ({
       slug: user.slug,
       description: user.description || '',
     },
+    enableReinitialize: true,
     validationSchema: zEditProfileInput,
     onSubmit: async (values) => {
-      console.log('sending')
-
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // resolve(true)
-          reject({ message: 'error' })
-          console.log('sended')
-        }, 2000)
-      })
+      const newProfile = await clientApi.patchProfile.fetcher(values)
+      clientApi.getProfile.mutate(newProfile)
+      setEditorOpen(false)
     },
     disableButtonUntilValid: true,
+    successMessage: 'Профиль успешно обновлён',
   })
 
   return (

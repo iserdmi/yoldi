@@ -1,10 +1,10 @@
 import { User, clientApi } from '@/api'
 import { ErrorPageComponent } from '@/components/ErrorPageComponent'
+import { NextPageWithLayout } from '@/pages/_app'
 import Cookies from 'js-cookie'
 import { createContext, useContext } from 'react'
 import { useSWRConfig } from 'swr'
 import { Loader } from '../components/Loader'
-import { NextPageWithLayout } from '@/pages/_app'
 import { getDisplayName } from './getDisplayName'
 
 export type AppContext = {
@@ -22,7 +22,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     error,
     isLoading,
   } = clientApi.getProfile.useQuery({
-    skip: !Cookies.get('token') && !swrConfig.fallback[clientApi.getProfile.getKey()],
+    skip: typeof window === 'undefined' ? !swrConfig.fallback[clientApi.getProfile.getKey()] : !Cookies.get('token'),
   })
 
   return (

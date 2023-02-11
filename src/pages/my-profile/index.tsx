@@ -7,7 +7,6 @@ import { NotFoundError } from '@/utils/errors'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 
 export const getServerSideProps = withDefaultServerSideProps(async (ctx, defaultServerSideProps) => {
-  // TODO: Throw UnauthorizedError and show message
   try {
     const serverApi = getApi(ctx)
     if (!defaultServerSideProps.props.me) {
@@ -38,10 +37,10 @@ export const getServerSideProps = withDefaultServerSideProps(async (ctx, default
 })
 
 export const MyProfilePage = () => {
-  const { data: user, isLoading, error } = clientApi.getProfile.useQuery()
+  const { data: me, isLoading, error } = clientApi.getProfile.useQuery()
   if (error) return <ErrorPageComponent message={error.message} />
-  if ((isLoading && !user) || !user) return <Loader type="page" />
-  return <UserPageComponent user={user} />
+  if ((isLoading && !me) || !me) return <Loader type="page" />
+  return <UserPageComponent user={me} />
 }
 
 export default withAllWrappers(MyProfilePage)

@@ -36,7 +36,6 @@ export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServer
 
 const SignInPage: NextPageWithLayout = () => {
   const router = useRouter()
-  const { trigger: login } = clientApi.login.useMutation()
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       email: '',
@@ -44,12 +43,8 @@ const SignInPage: NextPageWithLayout = () => {
     },
     validationSchema: zSignInInput,
     onSubmit: async (values) => {
-      const result = await login(values)
-      if (!result) {
-        throw new Error('Ошибка авторизации')
-      }
+      const result = await clientApi.login.fetcher(values)
       Cookies.set('token', result.value, { expires: 99999 })
-      await mutate(() => true)
       await router.push(getMyProfileRoute())
     },
     disableButtonUntilValid: true,

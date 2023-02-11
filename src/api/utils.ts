@@ -1,9 +1,9 @@
-import useSWR from 'swr'
-import useSWRMutation from 'swr/mutation'
-import { PublicConfiguration, SWRResponse } from 'swr/_internal'
 import { env } from '@/utils/env'
 import { NotFoundError } from '@/utils/errors'
 import { GetServerSidePropsContext } from 'next'
+import useSWR, { mutate } from 'swr'
+import { PublicConfiguration, SWRResponse } from 'swr/_internal'
+import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation'
 
 export type ServerCtxOrGetToken = GetServerSidePropsContext | (() => string | undefined)
 const getToken = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
@@ -15,14 +15,16 @@ type SwrOptions = Partial<PublicConfiguration<any, any, any>> & { skip?: boolean
 type QueryWithoutParams<TOutput> = {
   getKey: () => string
   fetcher: () => Promise<TOutput>
-  useQuery: (options?: SwrOptions) => SWRResponse<TOutput>
+  useQuery: (options?: SwrOptions) => SWRResponse<TOutput, Error>
+  mutate: (data?: TOutput, options?: SWRMutationConfiguration<TOutput, Error>) => TOutput
   getFallback: () => Promise<{ [key: string]: TOutput }>
 }
 
 type QueryWithParams<TOutput, TGetKeyParams> = {
   getKey: (params: TGetKeyParams) => string
   fetcher: (params: TGetKeyParams) => Promise<TOutput>
-  useQuery: (params: TGetKeyParams, options?: SwrOptions) => SWRResponse<TOutput>
+  useQuery: (params: TGetKeyParams, options?: SwrOptions) => SWRResponse<TOutput, Error>
+  mutate: (params: TGetKeyParams, data?: TOutput, options?: SWRMutationConfiguration<TOutput, Error>) => TOutput
   getFallback: (params: TGetKeyParams) => Promise<{ [key: string]: TOutput }>
 }
 
@@ -52,8 +54,8 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
     })
   }
 
-  const useAppSwr = (url: string, options?: SwrOptions) => {
-    return useSWR(url, appFetch, {
+  const useAppSwr = (key: string, options?: SwrOptions) => {
+    return useSWR(key, appFetch, {
       revalidateOnFocus: false,
       shouldRetryOnError: false,
       ...options,
@@ -72,6 +74,10 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
     const useQueryWithParams = (params: any, options?: SwrOptions) =>
       useAppSwr(options?.skip ? null : getKey(params), options)
     const useQueryWithoutParams = (options?: SwrOptions) => useAppSwr(options?.skip ? null : getKey(), options)
+    const mutateWithParams = (params: any, data?: any, options?: SWRMutationConfiguration<any, any>) =>
+      mutate(getKey(params), data, options)
+    const mutateWithoutParams = (data?: any, options?: SWRMutationConfiguration<any, any>) =>
+      mutate(getKey(), data, options)
     const getFallbackWithParams = async (params: any) => {
       return {
         [getKey(params)]: await fetcherWithParams(params),
@@ -87,10 +93,11 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
       fetcher: paramsExists ? fetcherWithParams : fetcherWithoutParams,
       useQuery: paramsExists ? useQueryWithParams : useQueryWithoutParams,
       getFallback: paramsExists ? getFallbackWithParams : getFallbackWithoutParams,
+      mutate: paramsExists ? mutateWithParams : mutateWithoutParams,
     }
   }
 
-  const createMutation = <TInput, TOutput>(method: 'POST' | 'PUT' | 'DELETE', key: string) => {
+  const createMutation = <TInput, TOutput>(method: 'POST' | 'PUT' | 'PATCH' | 'DELETE', key: string) => {
     const fetcher = (input: TInput) => {
       return appFetch<TOutput>(key, {
         method,
@@ -100,16 +107,8 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
         body: JSON.stringify(input),
       })
     }
-    const swrFeatcher = (url: string, { arg }: { arg: TInput }) => {
-      return fetcher(arg)
-    }
-    const useMutation = () => {
-      return useSWRMutation<TOutput>(key, swrFeatcher)
-    }
     return {
-      getKey: () => key,
       fetcher,
-      useMutation,
     }
   }
 
