@@ -6,7 +6,6 @@ import { Form, FormButtonsAndAlert, FormInputs, FormSegments, useForm } from '@/
 import { Input } from '@/components/Input'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
-import { NextPageWithLayout } from '@/pages/_app'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { getMyProfileRoute } from '@/utils/routes'
 import { withAllWrappers } from '@/utils/withAllWrappers'
@@ -16,6 +15,7 @@ import { useRouter } from 'next/router'
 import { mutate } from 'swr'
 import { z } from 'zod'
 import css from './index.module.scss'
+import { NextPageWithLayout } from '@/utils/withLayouts'
 
 const zSignInInput = z.object({
   email: zEmailRequired,

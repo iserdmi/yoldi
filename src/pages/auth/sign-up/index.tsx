@@ -7,7 +7,6 @@ import { Input } from '@/components/Input'
 import { Meta } from '@/components/Meta'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
-import { NextPageWithLayout } from '@/pages/_app'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { getMyProfileRoute } from '@/utils/routes'
 import { withAllWrappers } from '@/utils/withAllWrappers'
@@ -16,6 +15,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { z } from 'zod'
 import css from './index.module.scss'
+import { NextPageWithLayout } from '@/utils/withLayouts'
 
 export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServerSideProps) => {
   if (defaultServerSideProps.props.me) {

@@ -1,11 +1,11 @@
 import { User, clientApi } from '@/api'
 import { ErrorPageComponent } from '@/components/ErrorPageComponent'
-import { NextPageWithLayout } from '@/pages/_app'
 import Cookies from 'js-cookie'
 import { createContext, useContext } from 'react'
 import { useSWRConfig } from 'swr'
 import { Loader } from '../components/Loader'
 import { getDisplayName } from './getDisplayName'
+import { NextPageWithLayout } from './withLayouts'
 
 export type AppContext = {
   me: User | undefined

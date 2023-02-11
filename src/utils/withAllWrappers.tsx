@@ -1,7 +1,6 @@
-import { NextPageWithLayout } from '@/pages/_app'
 import flowRight from 'lodash/flowRight'
 import { withAppContextProvider } from './ctx'
-import { withLayouts } from './withLayouts'
+import { NextPageWithLayout, withLayouts } from './withLayouts'
 import { withSwrFallback } from './withSwrFallback'
 import { withErrorPage } from './withErrorPage'
 

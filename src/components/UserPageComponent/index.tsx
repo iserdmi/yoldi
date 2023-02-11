@@ -5,7 +5,7 @@ import { Meta } from '@/components/Meta'
 import { Modal } from '@/components/Modal'
 import { ProfileEditor } from '@/components/ProfileEditor'
 import { useMe } from '@/utils/ctx'
-import { useLogout } from '@/utils/logout'
+import { useLogout } from '@/utils/useLogout'
 import { useState } from 'react'
 import css from './index.module.scss'
 

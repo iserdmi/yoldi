@@ -1,6 +1,6 @@
-import { NextPageWithLayout } from '@/pages/_app'
 import { SWRConfig } from 'swr'
 import { getDisplayName } from './getDisplayName'
+import { NextPageWithLayout } from './withLayouts'
 
 export const withSwrFallback = <T extends Object>(Page: NextPageWithLayout<T>) => {
   const WrappedPage = (props: T & { fallback: any }) => {
