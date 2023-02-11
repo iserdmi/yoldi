@@ -1,9 +1,9 @@
+import { type GetServerSidePropsContext } from 'next'
+import useSWR, { mutate } from 'swr'
+import { type PublicConfiguration, type SWRResponse } from 'swr/_internal'
+import { type SWRMutationConfiguration } from 'swr/mutation'
 import { env } from '@/utils/env'
 import { NotFoundError } from '@/utils/errors'
-import { GetServerSidePropsContext } from 'next'
-import useSWR, { mutate } from 'swr'
-import { PublicConfiguration, SWRResponse } from 'swr/_internal'
-import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation'
 
 export type ServerCtxOrGetToken = GetServerSidePropsContext | (() => string | undefined)
 const getToken = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
@@ -17,7 +17,7 @@ type QueryWithoutParams<TOutput> = {
   fetcher: () => Promise<TOutput>
   useQuery: (options?: SwrOptions) => SWRResponse<TOutput, Error>
   mutate: (data?: TOutput, options?: SWRMutationConfiguration<TOutput, Error>) => TOutput
-  getFallback: () => Promise<{ [key: string]: TOutput }>
+  getFallback: () => Promise<Record<string, TOutput>>
 }
 
 type QueryWithParams<TOutput, TGetKeyParams> = {
@@ -25,13 +25,13 @@ type QueryWithParams<TOutput, TGetKeyParams> = {
   fetcher: (params: TGetKeyParams) => Promise<TOutput>
   useQuery: (params: TGetKeyParams, options?: SwrOptions) => SWRResponse<TOutput, Error>
   mutate: (params: TGetKeyParams, data?: TOutput, options?: SWRMutationConfiguration<TOutput, Error>) => TOutput
-  getFallback: (params: TGetKeyParams) => Promise<{ [key: string]: TOutput }>
+  getFallback: (params: TGetKeyParams) => Promise<Record<string, TOutput>>
 }
 
 export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
   const appFetch = async <T>(url: string, options?: RequestInit): Promise<T> => {
     const token = getToken(serverCtxOrGetToken)
-    return fetch(`${env.NEXT_PUBLIC_BACKEND_API_URL}${url}`, {
+    return await fetch(`${env.NEXT_PUBLIC_BACKEND_API_URL}${url}`, {
       ...options,
       headers: { ...options?.headers, ...(token ? { 'X-API-KEY': token } : {}) },
     }).then(async (res) => {
@@ -54,7 +54,7 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
     })
   }
 
-  const useAppSwr = (key: string, options?: SwrOptions) => {
+  const useAppSwr = (key: string | null, options?: SwrOptions) => {
     return useSWR(key, appFetch, {
       revalidateOnFocus: false,
       shouldRetryOnError: false,
@@ -66,18 +66,18 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
   function createQuery<TOutput, TGetKeyParams>(
     getKey: (params: TGetKeyParams) => string
   ): QueryWithParams<TOutput, TGetKeyParams>
-  function createQuery(keyOrGetKey: string | Function): any {
+  function createQuery(keyOrGetKey: string | ((params?: any) => string)): any {
     const paramsExists = typeof keyOrGetKey === 'function'
     const getKey = typeof keyOrGetKey === 'string' ? () => keyOrGetKey : keyOrGetKey
-    const fetcherWithParams = (params: any) => appFetch(getKey(params))
-    const fetcherWithoutParams = () => appFetch(getKey())
+    const fetcherWithParams = async (params: any) => await appFetch(getKey(params))
+    const fetcherWithoutParams = async () => await appFetch(getKey())
     const useQueryWithParams = (params: any, options?: SwrOptions) =>
       useAppSwr(options?.skip ? null : getKey(params), options)
     const useQueryWithoutParams = (options?: SwrOptions) => useAppSwr(options?.skip ? null : getKey(), options)
-    const mutateWithParams = (params: any, data?: any, options?: SWRMutationConfiguration<any, any>) =>
-      mutate(getKey(params), data, options)
-    const mutateWithoutParams = (data?: any, options?: SWRMutationConfiguration<any, any>) =>
-      mutate(getKey(), data, options)
+    const mutateWithParams = async (params: any, data?: any, options?: SWRMutationConfiguration<any, any>) =>
+      await mutate(getKey(params), data, options)
+    const mutateWithoutParams = async (data?: any, options?: SWRMutationConfiguration<any, any>) =>
+      await mutate(getKey(), data, options)
     const getFallbackWithParams = async (params: any) => {
       return {
         [getKey(params)]: await fetcherWithParams(params),
@@ -98,8 +98,8 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
   }
 
   const createMutation = <TInput, TOutput>(method: 'POST' | 'PUT' | 'PATCH' | 'DELETE', key: string) => {
-    const fetcher = (input: TInput) => {
-      return appFetch<TOutput>(key, {
+    const fetcher = async (input: TInput) => {
+      return await appFetch<TOutput>(key, {
         method,
         headers: {
           'Content-Type': 'application/json',

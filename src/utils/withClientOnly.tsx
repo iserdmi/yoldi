@@ -12,7 +12,7 @@ const ClientOnly = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>
 }
 
-export const withClientOnly = <T extends Object>(Component: React.ComponentType<T>) => {
+export const withClientOnly = <T extends Record<string, unknown>>(Component: React.ComponentType<T>) => {
   const WrappedComponent = (props: T) => (
     <ClientOnly>
       <Component {...props} />

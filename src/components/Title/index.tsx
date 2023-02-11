@@ -1,5 +1,5 @@
-import css from './index.module.scss'
 import cn from 'classnames'
+import css from './index.module.scss'
 
 export const Title = ({
   children,

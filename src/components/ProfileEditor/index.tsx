@@ -1,4 +1,9 @@
-import { User, clientApi } from '@/api'
+import { useRouter } from 'next/router'
+import { type Dispatch, type SetStateAction } from 'react'
+import { z } from 'zod'
+import { Textarea } from '../Textarea'
+import css from './index.module.scss'
+import { type User, clientApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 import { Form, FormButtonsAndAlert, FormInputs, useForm } from '@/components/Form'
@@ -7,16 +12,11 @@ import { Title } from '@/components/Title'
 import { notify } from '@/utils/notify'
 import { getUserRoute } from '@/utils/routes'
 import { zStringOptional, zStringRequired } from '@/utils/zod'
-import { useRouter } from 'next/router'
-import { Dispatch, SetStateAction } from 'react'
-import { z } from 'zod'
-import { Textarea } from '../Textarea'
-import css from './index.module.scss'
 
 const zEditProfileInput = z.object({
   name: zStringRequired,
   slug: zStringRequired.regex(
-    /^[a-zA-Z0-9-_\.]+$/,
+    /^[a-zA-Z0-9-_.]+$/,
     'Разрешены только латинские буквы, цифры, дефис, нижнее подчёркивание и точка'
   ),
   description: zStringOptional,
@@ -43,7 +43,7 @@ export const ProfileEditor = ({
       clientApi.getProfile.mutate(newUser)
       if (newUser.slug !== user.slug) {
         clientApi.getUser.mutate({ slug: newUser.slug }, newUser)
-        router.replace(getUserRoute(newUser.slug), undefined, { shallow: true }).then(() => {
+        void router.replace(getUserRoute(newUser.slug), undefined, { shallow: true }).then(() => {
           // corner case. on route replace default notification will be missing
           notify({
             message: 'Профиль успешно обновлён',
@@ -79,7 +79,9 @@ export const ProfileEditor = ({
               type="button"
               size="m"
               style="outline"
-              onClick={() => setEditorOpen(false)}
+              onClick={() => {
+                setEditorOpen(false)
+              }}
             >
               Отмена
             </Button>

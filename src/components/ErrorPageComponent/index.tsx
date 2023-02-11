@@ -1,6 +1,6 @@
-import { Title } from '@/components/Title'
-import css from './index.module.scss'
 import { Alert } from '../Alert'
+import css from './index.module.scss'
+import { Title } from '@/components/Title'
 
 export type ErrorPageProps = { title?: string; message?: string }
 export const ErrorPageComponent = ({ title = 'Ой, ошибка', message }: ErrorPageProps) => {

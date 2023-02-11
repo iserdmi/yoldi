@@ -1,5 +1,5 @@
+import { getApiHelpers, type ServerCtxOrGetToken } from './utils'
 import { getClientToken } from '@/utils/token'
-import { getApiHelpers, ServerCtxOrGetToken } from './utils'
 
 export type User = {
   name: string
@@ -19,7 +19,7 @@ export type User = {
     height: string
   } | null
 }
-export type GetUsersOutput = Array<User>
+export type GetUsersOutput = User[]
 export type GetUserOutput = User
 export type GetProfileOutput = User
 export type LoginInput = {

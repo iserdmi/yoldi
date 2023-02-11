@@ -1,10 +1,10 @@
-import { User, clientApi } from '@/api'
 import { createContext, useContext, useEffect } from 'react'
 import { useSWRConfig } from 'swr'
 import { Loader } from '../components/Loader'
 import { getDisplayName } from './getDisplayName'
 import { useToken } from './token'
-import { NextPageWithLayout } from './withLayouts'
+import { type NextPageWithLayout } from './withLayouts'
+import { type User, clientApi } from '@/api'
 
 export type AppContext = {
   me: User | undefined
@@ -25,7 +25,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     skip: typeof window === 'undefined' ? !swrConfig.fallback[clientApi.getProfile.getKey()] : !token,
   })
   useEffect(() => {
-    if (error) {
+    if (error != null) {
       removeToken()
     }
   }, [error, removeToken])
@@ -36,7 +36,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         me,
       }}
     >
-      {isLoading && !me ? <Loader type="page" /> : children}
+      {isLoading && (me == null) ? <Loader type="page" /> : children}
     </AppReactContext.Provider>
   )
 }

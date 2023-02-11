@@ -1,8 +1,8 @@
-import cn from 'classnames'
-import { FormikProps } from 'formik'
-import css from './index.module.scss'
 import autosize from 'autosize'
+import cn from 'classnames'
+import { type FormikProps } from 'formik'
 import { useEffect, useRef } from 'react'
+import css from './index.module.scss'
 
 export type TextareaProps = {
   label?: string
@@ -20,7 +20,7 @@ export const Textarea = ({ label, name, formik }: TextareaProps) => {
   const elRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
-    if (elRef.current) {
+    if (elRef.current != null) {
       autosize(elRef.current)
     }
   }, [elRef])
@@ -37,8 +37,8 @@ export const Textarea = ({ label, name, formik }: TextareaProps) => {
           ref={elRef}
           className={cn({ [css.input]: true, [css.invalid]: invalid })}
           disabled={disabled}
-          onChange={(e) => formik.setFieldValue(name, e.target.value)}
-          onBlur={() => formik.setFieldTouched(name)}
+          onChange={(e) => { formik.setFieldValue(name, e.target.value); }}
+          onBlur={() => { formik.setFieldTouched(name); }}
           value={value}
           name={name}
           id={name}

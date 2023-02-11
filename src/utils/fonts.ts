@@ -1,6 +1,6 @@
 import { Inter } from '@next/font/google'
-import { useEffect } from 'react'
 import cn from 'classnames'
+import { useEffect } from 'react'
 
 export const inter = Inter({ subsets: ['latin', 'cyrillic'], weight: ['400', '500'], variable: '--inter' })
 

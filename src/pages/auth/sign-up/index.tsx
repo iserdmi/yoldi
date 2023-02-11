@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router'
+import { z } from 'zod'
+import css from './index.module.scss'
 import { clientApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { AuthLayout } from '@/components/AuthLayout'
@@ -8,17 +11,14 @@ import { Meta } from '@/components/Meta'
 import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
-import { withAllWrappers } from '@/utils/withAllWrappers'
-import { zEmailRequired, zStringRequired } from '@/utils/zod'
-import { useRouter } from 'next/router'
-import { z } from 'zod'
-import css from './index.module.scss'
-import { NextPageWithLayout } from '@/utils/withLayouts'
 import { getUserRoute } from '@/utils/routes'
-import { setTokenSilently, useToken } from '@/utils/token'
+import { setTokenSilently } from '@/utils/token'
+import { withAllWrappers } from '@/utils/withAllWrappers'
+import { type NextPageWithLayout } from '@/utils/withLayouts'
+import { zEmailRequired, zStringRequired } from '@/utils/zod'
 
 export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServerSideProps) => {
-  if (defaultServerSideProps.props.me) {
+  if (defaultServerSideProps.props.me != null) {
     return {
       redirect: {
         permanent: false,
@@ -62,7 +62,7 @@ const SignUpPage: NextPageWithLayout = () => {
       <Title as="h1">
         Регистрация
         <br />
-        в Yoldi Agency
+        в&nbsp;Yoldi&nbsp;Agency
       </Title>
       <Form formik={formik}>
         <FormSegments>

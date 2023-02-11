@@ -36,7 +36,11 @@
     "@types/autosize": "^4.0.1",
     "@types/lodash": "^4.14.191",
     "@types/react-modal": "^3.13.1",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-node": "^11.1.0",
     "include-media": "^2.0.0",
+    "prettier": "^2.8.4",
     "reset-css": "^5.0.1",
     "sass": "^1.58.0"
   }

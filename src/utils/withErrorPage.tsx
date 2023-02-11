@@ -1,10 +1,10 @@
-import { ErrorPageComponent, ErrorPageProps } from '@/components/ErrorPageComponent'
 import { getDisplayName } from './getDisplayName'
-import { NextPageWithLayout } from './withLayouts'
+import { type NextPageWithLayout } from './withLayouts'
+import { ErrorPageComponent, type ErrorPageProps } from '@/components/ErrorPageComponent'
 
-export const withErrorPage = <T extends Object>(Page: NextPageWithLayout<T>) => {
+export const withErrorPage = <T,>(Page: NextPageWithLayout<T>) => {
   const WrappedPage = (props: T & { error?: ErrorPageProps }) => {
-    if (props.error) {
+    if (props.error != null) {
       return <ErrorPageComponent {...props.error} />
     }
     return <Page {...props} />

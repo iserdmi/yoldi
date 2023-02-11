@@ -1,5 +1,4 @@
 import { ErrorPageComponent } from '@/components/ErrorPageComponent'
-import { getDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 import { withClientOnly } from '@/utils/withClientOnly'
 

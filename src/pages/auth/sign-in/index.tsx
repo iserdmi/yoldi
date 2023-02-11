@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router'
+import { z } from 'zod'
+import css from './index.module.scss'
 import { clientApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { AuthLayout } from '@/components/AuthLayout'
@@ -8,13 +11,10 @@ import { PasswordInput } from '@/components/PasswordInput'
 import { Title } from '@/components/Title'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { getUserRoute } from '@/utils/routes'
+import { setTokenSilently } from '@/utils/token'
 import { withAllWrappers } from '@/utils/withAllWrappers'
-import { NextPageWithLayout } from '@/utils/withLayouts'
+import { type NextPageWithLayout } from '@/utils/withLayouts'
 import { zEmailRequired, zStringRequired } from '@/utils/zod'
-import { useRouter } from 'next/router'
-import { z } from 'zod'
-import css from './index.module.scss'
-import { setTokenSilently, useToken } from '@/utils/token'
 
 const zSignInInput = z.object({
   email: zEmailRequired,
@@ -22,7 +22,7 @@ const zSignInInput = z.object({
 })
 
 export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServerSideProps) => {
-  if (defaultServerSideProps.props.me) {
+  if (defaultServerSideProps.props.me != null) {
     return {
       redirect: {
         permanent: false,
@@ -55,7 +55,7 @@ const SignInPage: NextPageWithLayout = () => {
 
   return (
     <div className={css.page}>
-      <Title as="h1">Вход в Yoldi Agency</Title>
+      <Title as="h1">Вход в&nbsp;Yoldi&nbsp;Agency</Title>
       <Form formik={formik}>
         <FormSegments>
           <FormInputs>

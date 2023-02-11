@@ -1,4 +1,7 @@
-import { User } from '@/api'
+import { useState } from 'react'
+import { PrettyText } from '../PrettyText'
+import css from './index.module.scss'
+import { type User } from '@/api'
 import { Avatar } from '@/components/Avatar'
 import { Button } from '@/components/Button'
 import { Meta } from '@/components/Meta'
@@ -6,9 +9,6 @@ import { Modal } from '@/components/Modal'
 import { ProfileEditor } from '@/components/ProfileEditor'
 import { useMe } from '@/utils/ctx'
 import { useLogout } from '@/utils/useLogout'
-import { useState } from 'react'
-import css from './index.module.scss'
-import { PrettyText } from '../PrettyText'
 
 export const UserPageComponent = ({ user }: { user: User }) => {
   const me = useMe()
@@ -40,11 +40,18 @@ export const UserPageComponent = ({ user }: { user: User }) => {
                 style="outline"
                 size="s"
                 leftIconName="pen"
-                onClick={() => setEditorOpen(true)}
+                onClick={() => {
+                  setEditorOpen(true)
+                }}
               >
                 Редактировать
               </Button>
-              <Modal isOpen={editorOpen} onRequestClose={() => setEditorOpen(false)}>
+              <Modal
+                isOpen={editorOpen}
+                onRequestClose={() => {
+                  setEditorOpen(false)
+                }}
+              >
                 <ProfileEditor user={user} setEditorOpen={setEditorOpen} />
               </Modal>
             </div>

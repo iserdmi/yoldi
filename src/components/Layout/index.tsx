@@ -1,6 +1,6 @@
-import css from './index.module.scss'
-import { Header } from '../Header'
 import cn from 'classnames'
+import { Header } from '../Header'
+import css from './index.module.scss'
 
 export const Layout = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (

@@ -1,7 +1,7 @@
-import { clientApi } from '@/api'
 import { useState } from 'react'
 import { mutate } from 'swr'
 import { useToken } from './token'
+import { clientApi } from '@/api'
 
 export const useLogout = () => {
   const { removeToken } = useToken()

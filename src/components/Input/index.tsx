@@ -1,7 +1,7 @@
 import cn from 'classnames'
-import { FormikProps } from 'formik'
+import { type FormikProps } from 'formik'
+import { Icon, type IconName } from '../Icon'
 import css from './index.module.scss'
-import { Icon, IconName } from '../Icon'
 
 export type InputProps = {
   label?: string
@@ -51,8 +51,8 @@ export const Input = ({
           disabled={disabled}
           type={type}
           placeholder={placeholder}
-          onChange={(e) => formik.setFieldValue(name, e.target.value)}
-          onBlur={() => formik.setFieldTouched(name)}
+          onChange={(e) => { formik.setFieldValue(name, e.target.value); }}
+          onBlur={() => { formik.setFieldTouched(name); }}
           value={value}
           name={name}
           id={name}

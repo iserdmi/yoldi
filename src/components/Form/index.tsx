@@ -1,12 +1,12 @@
-import { AlertProps } from '@/components/Alert'
-import { ButtonProps } from '@/components/Button'
-import { NotifyProps, notify } from '@/utils/notify'
 import cn from 'classnames'
-import { FormikConfig, FormikHelpers, FormikValues, useFormik } from 'formik'
+import { type FormikConfig, type FormikHelpers, type FormikValues, useFormik } from 'formik'
 import React, { useEffect, useMemo, useState } from 'react'
-import { z } from 'zod'
+import { type z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import css from './index.module.scss'
+import { type AlertProps } from '@/components/Alert'
+import { type ButtonProps } from '@/components/Button'
+import { type NotifyProps, notify } from '@/utils/notify'
 
 type ValuesType<TMaybeZodSchema> = TMaybeZodSchema extends z.ZodTypeAny ? z.infer<TMaybeZodSchema> : {}
 
@@ -64,7 +64,7 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
   })
 
   const alertProps = useMemo<AlertProps>(() => {
-    if (submittingError) {
+    if (submittingError != null) {
       return {
         hidden: false,
         children: submittingError.message,
@@ -111,7 +111,7 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
   }, [successMessageVisible, successMessage, successMessagePolicy])
 
   useEffect(() => {
-    if (notifyProps) {
+    if (notifyProps != null) {
       notify(notifyProps)
     }
   }, [notifyProps])

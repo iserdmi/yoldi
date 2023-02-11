@@ -1,8 +1,7 @@
-import Link from 'next/link'
-import css from './index.module.scss'
 import cn from 'classnames'
-import { Icon, IconName } from '../Icon'
 import { ActiveLink } from '../ActiveLink'
+import { Icon, type IconName } from '../Icon'
+import css from './index.module.scss'
 
 export const LinkButton = ({
   children,
@@ -44,7 +43,7 @@ export type ButtonProps = {
   style: 'black' | 'outline'
   className?: string
   type: 'button' | 'submit'
-  onClick?: () => void
+  onClick?: () => any
   disabled?: boolean
   loading?: boolean
   fullWidth?: boolean

@@ -25,7 +25,6 @@
 
 ## TODO
 
-- Add Toast
 - Add eslint
 - Add husky
 - Images upload

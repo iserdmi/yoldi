@@ -1,7 +1,7 @@
-import { getSignInRoute, getSignUpRoute } from '@/utils/routes'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import css from './index.module.scss'
+import { getSignInRoute, getSignUpRoute } from '@/utils/routes'
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname()

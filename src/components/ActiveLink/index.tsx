@@ -1,7 +1,7 @@
 import cn from 'classnames'
-import Link, { LinkProps } from 'next/link'
+import Link, { type LinkProps } from 'next/link'
 import { useRouter } from 'next/router'
-import { PropsWithChildren, useEffect, useState } from 'react'
+import { type PropsWithChildren, useEffect, useState } from 'react'
 import css from './index.module.scss'
 
 type ActiveLinkProps = LinkProps & {

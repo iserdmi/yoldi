@@ -11,7 +11,7 @@ export const Modal = ({
   isOpen,
   ...restProps
 }: {
-  onRequestClose: Function
+  onRequestClose: () => any
   children: React.ReactNode
   isOpen: boolean
 }) => {

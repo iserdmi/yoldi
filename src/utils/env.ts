@@ -1,3 +1,4 @@
+/* eslint-disable node/no-process-env */
 import { z } from 'zod'
 
 const zEnv = z.object({

@@ -1,4 +1,4 @@
-import toast, { ToastOptions, Toaster } from 'react-hot-toast'
+import toast, { type ToastOptions, Toaster } from 'react-hot-toast'
 
 export type NotifyProps = { message: string; type: 'success' | 'error' } & ToastOptions
 export const notify = ({ message, type, ...restProps }: NotifyProps) =>

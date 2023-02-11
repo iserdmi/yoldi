@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import css from './index.module.scss'
 import { clientApi, getApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { Avatar } from '@/components/Avatar'
@@ -7,8 +9,6 @@ import { Title } from '@/components/Title'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { getUserRoute } from '@/utils/routes'
 import { withAllWrappers } from '@/utils/withAllWrappers'
-import Link from 'next/link'
-import css from './index.module.scss'
 
 export const getServerSideProps = withDefaultServerSideProps(async (ctx) => {
   const serverApi = getApi(ctx)
@@ -30,9 +30,9 @@ const UsersPage = () => {
       <Title as="h1" className={css.title}>
         Список аккаунтов
       </Title>
-      {isLoading && !users && <Loader type="section" />}
-      {!!error && <Alert color="red">{error.message}</Alert>}
-      {!!users && (
+      {isLoading && (users == null) && <Loader type="section" />}
+      {!(error == null) && <Alert color="red">{error.message}</Alert>}
+      {!(users == null) && (
         <div className={css.users}>
           {users.map((user) => (
             <Link href={getUserRoute(user.slug)} key={user.email} className={css.user} prefetch={false}>

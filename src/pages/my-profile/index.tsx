@@ -1,8 +1,6 @@
 // Deprecated: use /[slug] instead
 
-import { clientApi, getApi } from '@/api'
 import { ErrorPageComponent } from '@/components/ErrorPageComponent'
-import { Loader } from '@/components/Loader'
 import { UserPageComponent } from '@/components/UserPageComponent'
 import { useMe } from '@/utils/ctx'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
@@ -12,7 +10,7 @@ import { withAllWrappers } from '@/utils/withAllWrappers'
 
 export const getServerSideProps = withDefaultServerSideProps(async (ctx, defaultServerSideProps) => {
   try {
-    if (!defaultServerSideProps.props.me) {
+    if (defaultServerSideProps.props.me == null) {
       return {
         props: {
           error: {
@@ -49,7 +47,7 @@ export const getServerSideProps = withDefaultServerSideProps(async (ctx, default
 
 export const MyProfilePage = () => {
   const me = useMe()
-  if (!me)
+  if (me == null)
     return (
       <ErrorPageComponent
         {...{
