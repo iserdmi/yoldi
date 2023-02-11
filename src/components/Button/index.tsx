@@ -2,6 +2,7 @@ import Link from 'next/link'
 import css from './index.module.scss'
 import cn from 'classnames'
 import { Icon, IconName } from '../Icon'
+import { ActiveLink } from '../ActiveLink'
 
 export const LinkButton = ({
   children,
@@ -10,6 +11,7 @@ export const LinkButton = ({
   style,
   className,
   leftIconName,
+  activeClassName,
 }: {
   children: string
   href: string
@@ -17,9 +19,10 @@ export const LinkButton = ({
   style: 'black' | 'outline'
   className?: string
   leftIconName?: IconName
+  activeClassName?: string
 }) => {
   return (
-    <Link
+    <ActiveLink
       href={href}
       className={cn({
         [css.button]: true,
@@ -27,10 +30,11 @@ export const LinkButton = ({
         [css[`style-${style}`]]: true,
         [className || '']: !!className,
       })}
+      activeClassName={activeClassName}
     >
       {!!leftIconName && <Icon name={leftIconName} className={css.leftIcon} />}
       <span className={css.text}>{children}</span>
-    </Link>
+    </ActiveLink>
   )
 }
 
