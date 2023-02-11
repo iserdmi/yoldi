@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { z } from 'zod'
-import css from './index.module.scss'
 import { clientApi } from '@/api'
 import { Alert } from '@/components/Alert'
 import { AuthLayout } from '@/components/AuthLayout'
@@ -57,7 +56,7 @@ const SignUpPage: NextPageWithLayout = () => {
   })
 
   return (
-    <div className={css.page}>
+    <div>
       <Meta title="Регистрация" />
       <Title as="h1">
         Регистрация

@@ -19,6 +19,10 @@
     margin-right: 10px;
   }
 
+  .rightIcon {
+    margin-left: 10px;
+  }
+
   .text {
     @include button-text;
   }
@@ -33,7 +37,8 @@
     .text {
     }
 
-    .leftIcon {
+    .leftIcon,
+    .rightIcon {
       path {
         transition: fill 400ms ease;
         fill: $txt-color;
@@ -46,7 +51,8 @@
       color: $hover-color;
       transition: none;
 
-      .leftIcon {
+      .leftIcon,
+      .rightIcon {
         path {
           transition: none;
           fill: $hover-color;
@@ -64,7 +70,8 @@
       @include loader($border-width: 3px, $size: 20px, $color: $strokes-primary-hover-color);
 
       .text,
-      .leftIcon {
+      .leftIcon,
+      .rightIcon {
         opacity: 0;
       }
     }
@@ -97,7 +104,8 @@
       @include loader($border-width: 3px, $size: 20px, $color: $background-primary-color);
 
       .text,
-      .leftIcon {
+      .leftIcon,
+      .rightIcon {
         opacity: 0;
       }
     }

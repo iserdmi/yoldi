@@ -11,6 +11,13 @@
     height: 200px;
     width: 100%;
     background-color: $strokes-secondary-color;
+    position: relative;
+
+    .image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   }
 
   .content {
@@ -22,6 +29,7 @@
 
     .avatar {
       margin-top: -50px;
+      width: 100px;
       position: relative;
       z-index: 1;
     }

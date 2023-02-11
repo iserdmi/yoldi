@@ -1,6 +1,8 @@
+import Image from 'next/image'
 import { useState } from 'react'
 import { PrettyText } from '../PrettyText'
 import { UploadAvatar } from '../UploadAvatar'
+import { UploadCover } from '../UploadCover'
 import css from './index.module.scss'
 import { type User } from '@/api'
 import { Avatar } from '@/components/Avatar'
@@ -19,9 +21,14 @@ export const UserPageComponent = ({ user }: { user: User }) => {
   return (
     <div className={css.page}>
       <Meta title={user.name} />
-      <div className={css.banner}></div>
+      <div className={css.banner}>
+        {!!user.cover && <Image className={css.image} src={user.cover.url} priority={true} sizes="100vw" fill alt="" />}
+        {isMe && <UploadCover user={user} />}
+      </div>
       <div className={css.content}>
-        <div className={css.avatar}>{isMe ? <UploadAvatar user={user} /> : <Avatar user={user} size="m" />}</div>
+        <div className={css.avatar}>
+          {isMe ? <UploadAvatar user={user} /> : <Avatar user={user} priority={true} size="m" />}
+        </div>
         <div className={css.header}>
           <div className={css.left}>
             <div className={css.name}>{user.name}</div>

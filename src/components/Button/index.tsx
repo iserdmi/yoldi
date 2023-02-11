@@ -48,6 +48,7 @@ export type ButtonProps = {
   loading?: boolean
   fullWidth?: boolean
   leftIconName?: IconName
+  rightIconName?: IconName
 }
 export const Button = ({
   children,
@@ -60,6 +61,7 @@ export const Button = ({
   loading,
   fullWidth,
   leftIconName,
+  rightIconName,
 }: ButtonProps) => {
   return (
     <button
@@ -78,6 +80,7 @@ export const Button = ({
     >
       {!!leftIconName && <Icon name={leftIconName} className={css.leftIcon} />}
       <span className={css.text}>{children}</span>
+      {!!rightIconName && <Icon name={rightIconName} className={css.rightIcon} />}
     </button>
   )
 }

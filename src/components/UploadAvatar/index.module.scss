@@ -2,14 +2,16 @@
 @import '../../styles/vars';
 
 .uploadAvatar {
+  position: relative;
+
   .fileInput {
     display: none;
   }
 
-  .hover {
+  .button {
     cursor: pointer;
     position: absolute;
-    z-index: 10;
+    z-index: 40;
     top: 0;
     left: 0;
     width: 100%;
@@ -24,7 +26,7 @@
   }
 
   .loader {
-    z-index: 20;
+    z-index: 50;
     display: none;
     background-color: $txt-color;
     top: 0;
@@ -36,13 +38,13 @@
   }
 
   &:hover {
-    .hover {
+    .button {
       display: flex;
     }
   }
 
   &.loading {
-    .hover {
+    .button {
       display: none;
     }
 
