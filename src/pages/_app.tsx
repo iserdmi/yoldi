@@ -2,6 +2,7 @@ import { Loader } from '@/components/Loader'
 import { Meta } from '@/components/Meta'
 import '@/styles/globals.scss'
 import { useFonts } from '@/utils/fonts'
+import { MyToaster } from '@/utils/notify'
 import { useRouterLoading } from '@/utils/useRouterLoading'
 import type { AppProps } from 'next/app'
 import { CookiesProvider } from 'react-cookie'
@@ -14,6 +15,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <CookiesProvider>
         <Meta />
+        <MyToaster />
         <Loader hidden={!routerLoading} type="overlay" />
         <Component {...pageProps} />
       </CookiesProvider>

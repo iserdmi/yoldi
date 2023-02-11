@@ -4,6 +4,7 @@ import { Button } from '@/components/Button'
 import { Form, FormButtonsAndAlert, FormInputs, useForm } from '@/components/Form'
 import { Input } from '@/components/Input'
 import { Title } from '@/components/Title'
+import { notify } from '@/utils/notify'
 import { getUserRoute } from '@/utils/routes'
 import { zStringOptional, zStringRequired } from '@/utils/zod'
 import { useRouter } from 'next/router'
@@ -42,7 +43,13 @@ export const ProfileEditor = ({
       clientApi.getProfile.mutate(newUser)
       if (newUser.slug !== user.slug) {
         clientApi.getUser.mutate({ slug: newUser.slug }, newUser)
-        router.replace(getUserRoute(newUser.slug), undefined, { shallow: true })
+        router.replace(getUserRoute(newUser.slug), undefined, { shallow: true }).then(() => {
+          // corner case. on route replace default notification will be missing
+          notify({
+            message: 'Профиль успешно обновлён',
+            type: 'success',
+          })
+        })
       } else {
         clientApi.getUser.mutate({ slug: user.slug }, newUser)
       }
@@ -50,6 +57,7 @@ export const ProfileEditor = ({
     },
     disableButtonUntilValid: true,
     successMessage: 'Профиль успешно обновлён',
+    successMessagePolicy: 'toast',
   })
 
   return (

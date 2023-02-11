@@ -1,16 +1,18 @@
-import { FormikConfig, FormikHelpers, FormikValues, useFormik } from 'formik'
-import React, { useMemo, useState } from 'react'
-import { z } from 'zod'
-import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { AlertProps } from '@/components/Alert'
 import { ButtonProps } from '@/components/Button'
-import css from './index.module.scss'
+import { NotifyProps, notify } from '@/utils/notify'
 import cn from 'classnames'
+import { FormikConfig, FormikHelpers, FormikValues, useFormik } from 'formik'
+import React, { useEffect, useMemo, useState } from 'react'
+import { z } from 'zod'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+import css from './index.module.scss'
 
 type ValuesType<TMaybeZodSchema> = TMaybeZodSchema extends z.ZodTypeAny ? z.infer<TMaybeZodSchema> : {}
 
 export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undefined>({
   successMessage = false,
+  successMessagePolicy = 'alert',
   resetOnSuccess = false,
   showValidationAlert = false,
   initialValues,
@@ -20,6 +22,7 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
   ...restProps
 }: {
   successMessage?: string | false
+  successMessagePolicy?: 'alert' | 'toast'
   resetOnSuccess?: boolean
   showValidationAlert?: boolean
   initialValues?: ValuesType<TMaybeZodSchema>
@@ -75,7 +78,7 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
         color: 'red',
       }
     }
-    if (successMessageVisible && successMessage) {
+    if (successMessageVisible && successMessage && successMessagePolicy === 'alert') {
       return {
         hidden: false,
         children: successMessage,
@@ -87,7 +90,31 @@ export const useForm = <TMaybeZodSchema extends z.ZodTypeAny | undefined = undef
       hidden: true,
       children: null,
     }
-  }, [submittingError, formik.isValid, formik.submitCount, successMessageVisible, successMessage, showValidationAlert])
+  }, [
+    submittingError,
+    formik.isValid,
+    formik.submitCount,
+    successMessageVisible,
+    successMessage,
+    showValidationAlert,
+    successMessagePolicy,
+  ])
+
+  const notifyProps = useMemo<NotifyProps | null>(() => {
+    if (successMessageVisible && successMessage && successMessagePolicy === 'toast') {
+      return {
+        message: successMessage,
+        type: 'success',
+      }
+    }
+    return null
+  }, [successMessageVisible, successMessage, successMessagePolicy])
+
+  useEffect(() => {
+    if (notifyProps) {
+      notify(notifyProps)
+    }
+  }, [notifyProps])
 
   const buttonProps = useMemo<Partial<ButtonProps>>(() => {
     return {
