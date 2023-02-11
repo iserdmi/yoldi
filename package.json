@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "types": "tsc --noEmit --project ./tsconfig.json",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache .",
+    "stylelint": "stylelint --cache --cache-location ./node_modules/.cache/.stylelintcache 'src/**/*.scss'",
+    "stylecheck": "sass --update -q ./src:./node_modules/.cache/.stylecheckcache",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@next/font": "13.1.6",
@@ -15,7 +19,6 @@
     "@types/react-dom": "18.0.10",
     "autosize": "^5.0.2",
     "classnames": "^2.3.2",
-    "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "formik": "^2.2.9",
     "lodash": "^4.17.21",
@@ -36,12 +39,18 @@
     "@types/autosize": "^4.0.1",
     "@types/lodash": "^4.14.191",
     "@types/react-modal": "^3.13.1",
+    "eslint": "8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard-with-typescript": "^34.0.0",
     "eslint-plugin-node": "^11.1.0",
+    "husky": "^8.0.3",
     "include-media": "^2.0.0",
+    "lint-staged": "^13.1.1",
     "prettier": "^2.8.4",
     "reset-css": "^5.0.1",
-    "sass": "^1.58.0"
+    "sass": "^1.58.0",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier-scss": "^0.0.1",
+    "stylelint-config-standard-scss": "^6.1.0"
   }
 }

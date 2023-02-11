@@ -1,5 +1,5 @@
-@import "../styles/vars";
-@import "../styles/mixins";
+@import '../styles/vars';
+@import '../styles/mixins';
 
 .page {
   width: 100%;
@@ -37,7 +37,7 @@
         justify-content: space-between;
         overflow: hidden;
 
-        $breakpoint: "<=600px";
+        $breakpoint: '<=600px';
 
         @include media($breakpoint) {
           flex-flow: column nowrap;
@@ -77,6 +77,7 @@
             color: $hover-color;
             transition: none;
           }
+
           .email {
             color: $hover-color;
             transition: none;

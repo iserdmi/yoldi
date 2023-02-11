@@ -16,6 +16,7 @@
     color: $txt-color;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.size-s {
     width: 50px;
     height: 50px;
@@ -25,6 +26,7 @@
     }
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.size-m {
     width: 100px;
     height: 100px;

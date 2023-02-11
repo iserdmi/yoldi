@@ -23,6 +23,7 @@
     @include button-text;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.style-outline {
     border: 1px solid $strokes-primary-color;
     background-color: $background-primary-color;
@@ -69,14 +70,12 @@
     }
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.style-black {
     border: none;
     background-color: $txt-color;
     color: $background-primary-color;
     transition: background-color 400ms ease;
-
-    .text {
-    }
 
     &:hover,
     &:active {
@@ -104,11 +103,13 @@
     }
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.size-s {
     height: 40px;
     padding: 4px 22px;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.size-m {
     height: 50px;
     padding: 4px 22px;

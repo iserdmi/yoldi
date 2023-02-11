@@ -1,5 +1,5 @@
 @use 'sass:math';
-@import '~include-media/dist/include-media';
+@import '../../node_modules/include-media/dist/include-media';
 
 @mixin paragraph {
   font-style: normal;

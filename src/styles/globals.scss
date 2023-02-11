@@ -1,4 +1,4 @@
-@import '~reset-css/sass/reset';
+@import '../../node_modules/reset-css/sass/reset';
 @import './mixins';
 @import './vars';
 
@@ -10,6 +10,7 @@
   margin: 0;
 }
 
+/* stylelint-disable-next-line selector-id-pattern */
 html,
 body,
 #__next {
@@ -19,8 +20,9 @@ body,
   font-family: var(--inter);
 }
 
-$modalBreakpoint: '<700px';
+$modal-breakpoint: '<700px';
 
+/* stylelint-disable-next-line selector-class-pattern */
 .ReactModal__Overlay {
   position: fixed;
   z-index: 999999;
@@ -32,14 +34,15 @@ $modalBreakpoint: '<700px';
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0 0 0 / 30%);
 
-  @include media($modalBreakpoint) {
+  @include media($modal-breakpoint) {
     justify-content: flex-end;
     background-color: transparent;
   }
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .ReactModal__Content {
   background: white;
   outline: none;
@@ -56,7 +59,7 @@ $modalBreakpoint: '<700px';
   justify-content: stretch;
   align-items: stretch;
 
-  @include media($modalBreakpoint) {
+  @include media($modal-breakpoint) {
     height: calc(100vh - $header-height);
     max-height: none;
     max-width: none;

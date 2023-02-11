@@ -2,6 +2,7 @@
 @import '../../styles/mixins';
 
 .loader {
+  /* stylelint-disable-next-line selector-class-pattern */
   &.type-page {
     position: relative;
     display: block;
@@ -16,6 +17,7 @@
     }
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.type-section {
     position: relative;
     display: block;
@@ -28,6 +30,7 @@
     }
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   &.type-overlay {
     z-index: 9999999;
     position: fixed;
