@@ -1,9 +1,11 @@
-import { createContext, useContext } from 'react'
-import { Loader } from '../components/Loader'
 import { User, clientApi } from '@/api'
-import { useSWRConfig } from 'swr'
-import Cookies from 'js-cookie'
 import { ErrorPageComponent } from '@/components/ErrorPageComponent'
+import Cookies from 'js-cookie'
+import { createContext, useContext } from 'react'
+import { useSWRConfig } from 'swr'
+import { Loader } from '../components/Loader'
+import { NextPageWithLayout } from '@/pages/_app'
+import { getDisplayName } from './getDisplayName'
 
 export type AppContext = {
   me: User | undefined
@@ -32,6 +34,18 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       {isLoading && !me ? <Loader type="page" /> : !!error ? <ErrorPageComponent message={error.message} /> : children}
     </AppReactContext.Provider>
   )
+}
+
+export const withAppContextProvider = <T,>(Page: NextPageWithLayout<T>) => {
+  const WrappedPage = (props: T & { fallback: any }) => {
+    return (
+      <AppContextProvider>
+        <Page {...props} />
+      </AppContextProvider>
+    )
+  }
+  WrappedPage.displayName = `withAppContextProvider(${getDisplayName(Page)})`
+  return WrappedPage
 }
 
 export const useAppContext = () => {

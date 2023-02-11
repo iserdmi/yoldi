@@ -5,6 +5,7 @@
 .alert {
   padding: 10px;
   border-radius: $border-radius;
+  @include paragraph;
 
   &.color-red {
     background-color: color.scale($red, $lightness: 85%);

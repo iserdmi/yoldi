@@ -6,10 +6,20 @@ import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { NotFoundError } from '@/utils/errors'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 
-export const getServerSideProps = withDefaultServerSideProps(async (ctx) => {
+export const getServerSideProps = withDefaultServerSideProps(async (ctx, defaultServerSideProps) => {
   // TODO: Throw UnauthorizedError and show message
   try {
     const serverApi = getApi(ctx)
+    if (!defaultServerSideProps.props.me) {
+      return {
+        props: {
+          error: {
+            title: 'Только для авторизованных',
+            message: 'Чтобы увидеть эту страницу войдите в личный кабинет',
+          },
+        },
+      }
+    }
     return {
       props: {
         fallback: {

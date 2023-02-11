@@ -1,23 +1,10 @@
-import { NextPageWithLayout, inter } from '@/pages/_app'
-import { getDisplayName } from './getDisplayName'
-import { SWRConfig } from 'swr'
-import { AppContextProvider } from './ctx'
-import { Layout } from '@/components/Layout'
-import classNames from 'classnames'
+import { NextPageWithLayout } from '@/pages/_app'
+import flowRight from 'lodash/flowRight'
+import { withAppContextProvider } from './ctx'
+import { withLayouts } from './withLayouts'
+import { withSwrFallback } from './withSwrFallback'
+import { withErrorPage } from './withErrorPage'
 
-export const withAllWrappers = <T,>(Page: NextPageWithLayout<T>) => {
-  const getLayout = Page.getLayout ?? ((page) => page)
-  const WrappedComponent = (props: T & { fallback: any }) => {
-    return (
-      <SWRConfig value={props.fallback ? { fallback: props.fallback } : {}}>
-        <AppContextProvider>
-          <Layout className={classNames(inter.variable, 'font-sans', inter.className)}>
-            {getLayout(<Page {...props} />)}
-          </Layout>
-        </AppContextProvider>
-      </SWRConfig>
-    )
-  }
-  WrappedComponent.displayName = `withAllWrappers(${getDisplayName(Page)})`
-  return WrappedComponent
+export const withAllWrappers = <T extends NextPageWithLayout>(Page: T): T => {
+  return flowRight(withSwrFallback, withAppContextProvider, withLayouts, withErrorPage)(Page)
 }

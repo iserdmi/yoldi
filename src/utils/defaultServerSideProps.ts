@@ -1,4 +1,4 @@
-import { User, getApi } from '@/api'
+import { getApi } from '@/api'
 import merge from 'lodash/merge'
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 import { UnauthorizedError } from './errors'
