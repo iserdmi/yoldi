@@ -25,9 +25,10 @@
 
 ## TODO
 
+- reactCookies
 - Add PrettyText
 - Add Toast
-- Images upload
 - Add eslint
 - Add husky
+- Images upload
 - Deploy

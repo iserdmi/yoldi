@@ -38,11 +38,13 @@ export const ProfileEditor = ({
     enableReinitialize: true,
     validationSchema: zEditProfileInput,
     onSubmit: async (values) => {
-      const newProfile = await clientApi.patchProfile.fetcher(values)
-      clientApi.getProfile.mutate(newProfile)
-      clientApi.getUser.mutate({ slug: user.slug }, newProfile)
-      if (newProfile.slug !== user.slug) {
-        router.replace(getUserRoute(newProfile.slug), undefined, { shallow: true })
+      const newUser = await clientApi.patchProfile.fetcher(values)
+      clientApi.getProfile.mutate(newUser)
+      if (newUser.slug !== user.slug) {
+        clientApi.getUser.mutate({ slug: newUser.slug }, newUser)
+        router.replace(getUserRoute(newUser.slug), undefined, { shallow: true })
+      } else {
+        clientApi.getUser.mutate({ slug: user.slug }, newUser)
       }
       setEditorOpen(false)
     },
