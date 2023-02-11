@@ -85,6 +85,12 @@
       max-width: 600px;
       @include paragraph;
       color: $txt-color;
+
+      p {
+        &:not(:last-child) {
+          margin-bottom: 5px;
+        }
+      }
     }
 
     .logoutButtonPlace {

@@ -8,6 +8,7 @@ import { useMe } from '@/utils/ctx'
 import { useLogout } from '@/utils/useLogout'
 import { useState } from 'react'
 import css from './index.module.scss'
+import { PrettyText } from '../PrettyText'
 
 export const UserPageComponent = ({ user }: { user: User }) => {
   const me = useMe()
@@ -51,7 +52,7 @@ export const UserPageComponent = ({ user }: { user: User }) => {
         </div>
         {user.description && (
           <div className={css.description}>
-            <p>{user.description}</p>
+            <PrettyText text={user.description} />
           </div>
         )}
         {isMe && (

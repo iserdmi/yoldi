@@ -1,14 +1,17 @@
+// Deprecated: use /[slug] instead
+
 import { clientApi, getApi } from '@/api'
 import { ErrorPageComponent } from '@/components/ErrorPageComponent'
 import { Loader } from '@/components/Loader'
 import { UserPageComponent } from '@/components/UserPageComponent'
+import { useMe } from '@/utils/ctx'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { NotFoundError } from '@/utils/errors'
+import { getUserRoute } from '@/utils/routes'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 
 export const getServerSideProps = withDefaultServerSideProps(async (ctx, defaultServerSideProps) => {
   try {
-    const serverApi = getApi(ctx)
     if (!defaultServerSideProps.props.me) {
       return {
         props: {
@@ -20,12 +23,20 @@ export const getServerSideProps = withDefaultServerSideProps(async (ctx, default
       }
     }
     return {
-      props: {
-        fallback: {
-          ...(await serverApi.getProfile.getFallback()),
-        },
+      redirect: {
+        permanent: false,
+        destination: getUserRoute(defaultServerSideProps.props.me.slug),
       },
     }
+    // Uncomment, if we decide to use /my-profile instead of /[slug]
+    // const serverApi = getApi(ctx)
+    // return {
+    //   props: {
+    //     fallback: {
+    //       ...(await serverApi.getProfile.getFallback()),
+    //     },
+    //   },
+    // }
   } catch (error: any) {
     if (error instanceof NotFoundError) {
       return {
@@ -37,9 +48,16 @@ export const getServerSideProps = withDefaultServerSideProps(async (ctx, default
 })
 
 export const MyProfilePage = () => {
-  const { data: me, isLoading, error } = clientApi.getProfile.useQuery()
-  if (error) return <ErrorPageComponent message={error.message} />
-  if ((isLoading && !me) || !me) return <Loader type="page" />
+  const me = useMe()
+  if (!me)
+    return (
+      <ErrorPageComponent
+        {...{
+          title: 'Только для авторизованных',
+          message: 'Чтобы увидеть эту страницу войдите в личный кабинет',
+        }}
+      />
+    )
   return <UserPageComponent user={me} />
 }
 
