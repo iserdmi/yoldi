@@ -37,15 +37,24 @@ export type SignUpInput = {
 export type SignUpOutput = {
   value: string
 }
-export type PatchProfileInput = Partial<{
+export type PatchProfileInput = {
   name: string
-  imageId: string
-  password: string
+  imageId?: string | null
+  password?: string
   slug: string
-  coverId: string
-  description: string
-}>
+  coverId?: string | null
+  description?: string | null
+}
 export type PatchProfileOutput = User
+export type UploadImageInput = {
+  file: File
+}
+export type UploadImageOutput = {
+  id: string
+  url: string
+  width: string
+  height: string
+}
 
 export const getApi = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
   const helpers = getApiHelpers(serverCtxOrGetToken)
@@ -59,6 +68,7 @@ export const getApi = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
     login: createMutation<LoginInput, LoginOutput>('POST', '/auth/login'),
     signUp: createMutation<SignUpInput, SignUpOutput>('POST', '/auth/sign-up'),
     patchProfile: createMutation<PatchProfileInput, PatchProfileOutput>('PATCH', '/profile'),
+    uploadImage: createMutation<UploadImageInput, UploadImageOutput>('POST', '/image', { type: 'form-data' }),
   }
 }
 

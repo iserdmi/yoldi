@@ -38,7 +38,7 @@ export const withDefaultServerSideProps = (
     if (initialServerSideProps.notFound || initialServerSideProps.redirect) {
       return initialServerSideProps
     }
-    return merge(defaultServerSideProps, initialServerSideProps)
+    return merge({}, defaultServerSideProps, initialServerSideProps)
   }
   return wrappedGetServerSideProps
 }

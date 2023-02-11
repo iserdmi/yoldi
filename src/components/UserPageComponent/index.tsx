@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { PrettyText } from '../PrettyText'
+import { UploadAvatar } from '../UploadAvatar'
 import css from './index.module.scss'
 import { type User } from '@/api'
 import { Avatar } from '@/components/Avatar'
@@ -20,9 +21,7 @@ export const UserPageComponent = ({ user }: { user: User }) => {
       <Meta title={user.name} />
       <div className={css.banner}></div>
       <div className={css.content}>
-        <div className={css.avatar}>
-          <Avatar user={user} size="m" />
-        </div>
+        <div className={css.avatar}>{isMe ? <UploadAvatar user={user} /> : <Avatar user={user} size="m" />}</div>
         <div className={css.header}>
           <div className={css.left}>
             <div className={css.name}>{user.name}</div>

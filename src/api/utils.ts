@@ -97,15 +97,31 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
     }
   }
 
-  const createMutation = <TInput, TOutput>(method: 'POST' | 'PUT' | 'PATCH' | 'DELETE', key: string) => {
+  const createMutation = <TInput, TOutput>(
+    method: 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+    key: string,
+    options?: { type?: 'form-data' | 'json' }
+  ) => {
+    const { type = 'json' } = options || {}
     const fetcher = async (input: TInput) => {
-      return await appFetch<TOutput>(key, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(input),
-      })
+      if (type === 'json') {
+        return await appFetch<TOutput>(key, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(input),
+        })
+      } else {
+        const formData = new FormData()
+        for (const [key, value] of Object.entries(input as Record<string, any>)) {
+          formData.append(key, value)
+        }
+        return await appFetch<TOutput>(key, {
+          method,
+          body: formData,
+        })
+      }
     }
     return {
       fetcher,
