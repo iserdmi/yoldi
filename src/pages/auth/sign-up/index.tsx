@@ -10,12 +10,12 @@ import { Title } from '@/components/Title'
 import { withDefaultServerSideProps } from '@/utils/defaultServerSideProps'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 import { zEmailRequired, zStringRequired } from '@/utils/zod'
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { z } from 'zod'
 import css from './index.module.scss'
 import { NextPageWithLayout } from '@/utils/withLayouts'
 import { getUserRoute } from '@/utils/routes'
+import { setTokenSilently, useToken } from '@/utils/token'
 
 export const getServerSideProps = withDefaultServerSideProps((ctx, defaultServerSideProps) => {
   if (defaultServerSideProps.props.me) {
@@ -37,6 +37,7 @@ const zSignUpInput = z.object({
 
 const SignUpPage: NextPageWithLayout = () => {
   const router = useRouter()
+
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       name: '',
@@ -46,8 +47,9 @@ const SignUpPage: NextPageWithLayout = () => {
     validationSchema: zSignUpInput,
     onSubmit: async (values) => {
       const result = await clientApi.signUp.fetcher(values)
+      // avoid flashing of the page
+      setTokenSilently(result.value)
       // TODO: backend, please, return slug from /api/login
-      Cookies.set('token', result.value, { expires: 99999 })
       const me = await clientApi.getProfile.fetcher()
       await router.push(getUserRoute(me.slug))
     },

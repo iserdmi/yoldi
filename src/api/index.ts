@@ -1,6 +1,5 @@
-import useSWRMutation from 'swr/mutation'
+import { getClientToken } from '@/utils/token'
 import { getApiHelpers, ServerCtxOrGetToken } from './utils'
-import Cookies from 'js-cookie'
 
 export type User = {
   name: string
@@ -63,4 +62,4 @@ export const getApi = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
   }
 }
 
-export const clientApi = getApi(() => Cookies.get('token'))
+export const clientApi = getApi(getClientToken)

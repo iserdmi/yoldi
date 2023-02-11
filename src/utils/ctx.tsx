@@ -1,9 +1,9 @@
 import { User, clientApi } from '@/api'
-import Cookies from 'js-cookie'
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 import { useSWRConfig } from 'swr'
 import { Loader } from '../components/Loader'
 import { getDisplayName } from './getDisplayName'
+import { useToken } from './token'
 import { NextPageWithLayout } from './withLayouts'
 
 export type AppContext = {
@@ -15,14 +15,20 @@ const AppReactContext = createContext<AppContext>({
 })
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { token, removeToken } = useToken()
   const swrConfig = useSWRConfig()
   const {
     data: me,
     error,
     isLoading,
   } = clientApi.getProfile.useQuery({
-    skip: typeof window === 'undefined' ? !swrConfig.fallback[clientApi.getProfile.getKey()] : !Cookies.get('token'),
+    skip: typeof window === 'undefined' ? !swrConfig.fallback[clientApi.getProfile.getKey()] : !token,
   })
+  useEffect(() => {
+    if (error) {
+      removeToken()
+    }
+  }, [error, removeToken])
 
   return (
     <AppReactContext.Provider

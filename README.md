@@ -25,7 +25,6 @@
 
 ## TODO
 
-- reactCookies
 - Add PrettyText
 - Add Toast
 - Add eslint
