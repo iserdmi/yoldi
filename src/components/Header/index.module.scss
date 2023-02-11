@@ -38,6 +38,7 @@
     flex-flow: row nowrap;
     align-items: center;
     position: relative;
+    overflow: hidden;
 
     .account {
       margin-left: 20px;
@@ -46,16 +47,16 @@
       align-items: center;
       text-decoration: none;
       position: relative;
+      overflow: hidden;
 
       .name {
         @include paragraph;
         color: $txt-color;
         transition: color 400ms ease;
         text-overflow: ellipsis;
+        white-space: nowrap;
         overflow: hidden;
         flex: 1 1 100%;
-        width: 100%;
-        max-width: 200px;
       }
 
       .avatar {
