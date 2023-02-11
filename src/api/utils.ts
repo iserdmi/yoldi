@@ -13,17 +13,17 @@ const getToken = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
 type SwrOptions = Partial<PublicConfiguration<any, any, any>> & { skip?: boolean }
 
 type QueryWithoutParams<TOutput> = {
-  getPath: () => string
+  getKey: () => string
   fetcher: () => Promise<TOutput>
   useQuery: (options?: SwrOptions) => SWRResponse<TOutput>
   getFallback: () => Promise<{ [key: string]: TOutput }>
 }
 
-type QueryWithParams<TOutput, TGetPathParams> = {
-  getPath: (params: TGetPathParams) => string
-  fetcher: (params: TGetPathParams) => Promise<TOutput>
-  useQuery: (params: TGetPathParams, options?: SwrOptions) => SWRResponse<TOutput>
-  getFallback: (params: TGetPathParams) => Promise<{ [key: string]: TOutput }>
+type QueryWithParams<TOutput, TGetKeyParams> = {
+  getKey: (params: TGetKeyParams) => string
+  fetcher: (params: TGetKeyParams) => Promise<TOutput>
+  useQuery: (params: TGetKeyParams, options?: SwrOptions) => SWRResponse<TOutput>
+  getFallback: (params: TGetKeyParams) => Promise<{ [key: string]: TOutput }>
 }
 
 export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
@@ -60,39 +60,39 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
     })
   }
 
-  function createQuery<TOutput>(path: string): QueryWithoutParams<TOutput>
-  function createQuery<TOutput, TGetPathParams>(
-    getPath: (params: TGetPathParams) => string
-  ): QueryWithParams<TOutput, TGetPathParams>
-  function createQuery(getPathOrPath: string | Function): any {
-    const paramsExists = typeof getPathOrPath === 'function'
-    const getPath = typeof getPathOrPath === 'string' ? () => getPathOrPath : getPathOrPath
-    const fetcherWithParams = (params: any) => appFetch(getPath(params))
-    const fetcherWithoutParams = () => appFetch(getPath())
+  function createQuery<TOutput>(key: string): QueryWithoutParams<TOutput>
+  function createQuery<TOutput, TGetKeyParams>(
+    getKey: (params: TGetKeyParams) => string
+  ): QueryWithParams<TOutput, TGetKeyParams>
+  function createQuery(keyOrGetKey: string | Function): any {
+    const paramsExists = typeof keyOrGetKey === 'function'
+    const getKey = typeof keyOrGetKey === 'string' ? () => keyOrGetKey : keyOrGetKey
+    const fetcherWithParams = (params: any) => appFetch(getKey(params))
+    const fetcherWithoutParams = () => appFetch(getKey())
     const useQueryWithParams = (params: any, options?: SwrOptions) =>
-      useAppSwr(options?.skip ? null : getPath(params), options)
-    const useQueryWithoutParams = (options?: SwrOptions) => useAppSwr(options?.skip ? null : getPath(), options)
+      useAppSwr(options?.skip ? null : getKey(params), options)
+    const useQueryWithoutParams = (options?: SwrOptions) => useAppSwr(options?.skip ? null : getKey(), options)
     const getFallbackWithParams = async (params: any) => {
       return {
-        [getPath(params)]: await fetcherWithParams(params),
+        [getKey(params)]: await fetcherWithParams(params),
       }
     }
     const getFallbackWithoutParams = async () => {
       return {
-        [getPath()]: await fetcherWithoutParams(),
+        [getKey()]: await fetcherWithoutParams(),
       }
     }
     return {
-      getPath,
+      getKey,
       fetcher: paramsExists ? fetcherWithParams : fetcherWithoutParams,
       useQuery: paramsExists ? useQueryWithParams : useQueryWithoutParams,
       getFallback: paramsExists ? getFallbackWithParams : getFallbackWithoutParams,
     }
   }
 
-  const createMutation = <TInput, TOutput>(method: 'POST' | 'PUT' | 'DELETE', path: string) => {
+  const createMutation = <TInput, TOutput>(method: 'POST' | 'PUT' | 'DELETE', key: string) => {
     const fetcher = (input: TInput) => {
-      return appFetch<TOutput>(path, {
+      return appFetch<TOutput>(key, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -104,10 +104,10 @@ export const getApiHelpers = (serverCtxOrGetToken: ServerCtxOrGetToken) => {
       return fetcher(arg)
     }
     const useMutation = () => {
-      return useSWRMutation<TOutput>(path, swrFeatcher)
+      return useSWRMutation<TOutput>(key, swrFeatcher)
     }
     return {
-      getPath: () => path,
+      getKey: () => key,
       fetcher,
       useMutation,
     }

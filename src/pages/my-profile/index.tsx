@@ -7,6 +7,7 @@ import { NotFoundError } from '@/utils/errors'
 import { withAllWrappers } from '@/utils/withAllWrappers'
 
 export const getServerSideProps = withDefaultServerSideProps(async (ctx) => {
+  // TODO: Throw UnauthorizedError and show message
   try {
     const serverApi = getApi(ctx)
     return {

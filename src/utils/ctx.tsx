@@ -20,7 +20,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     error,
     isLoading,
   } = clientApi.getProfile.useQuery({
-    skip: !Cookies.get('token') && !swrConfig.fallback[clientApi.getProfile.getPath()],
+    skip: !Cookies.get('token') && !swrConfig.fallback[clientApi.getProfile.getKey()],
   })
 
   return (

@@ -13,7 +13,7 @@ export const getDefaultServerSideProps = async (ctx: GetServerSidePropsContext) 
           props: {
             me: me,
             fallback: {
-              [serverApi.getProfile.getPath()]: me,
+              [serverApi.getProfile.getKey()]: me,
             },
           },
         }
