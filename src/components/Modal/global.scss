@@ -1,0 +1,50 @@
+@import '../../styles/vars';
+@import '../../styles/mixins';
+
+$breakpoint: '<700px';
+
+/* stylelint-disable-next-line selector-class-pattern */
+.ReactModal__Overlay {
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0 0 0 / 30%);
+
+  @include media($breakpoint) {
+    justify-content: flex-end;
+    background-color: transparent;
+  }
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.ReactModal__Content {
+  background: white;
+  outline: none;
+  width: 100%;
+  max-width: 600px;
+  max-height: calc(100vh - 100px);
+  position: relative;
+  transition: margin 200ms ease, opacity 200ms ease;
+  border-radius: $border-radius;
+  border: 1px solid $strokes-secondary-color;
+  overflow-y: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+
+  @include media($breakpoint) {
+    height: calc(100vh - $header-height);
+    max-height: none;
+    max-width: none;
+    border: none;
+    border-radius: 0;
+  }
+}
